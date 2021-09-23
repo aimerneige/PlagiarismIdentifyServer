@@ -1,8 +1,8 @@
 package route
 
 import (
-	"restful-template/controllers"
-	"restful-template/middleware"
+	"plagiarism-identify-server/controllers"
+	"plagiarism-identify-server/middleware"
 
 	"github.com/gin-gonic/gin"
 )

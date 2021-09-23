@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"restful-template/models"
-	"restful-template/response"
+	"plagiarism-identify-server/models"
+	"plagiarism-identify-server/response"
 
 	"github.com/gin-gonic/gin"
 )

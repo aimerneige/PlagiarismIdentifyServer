@@ -2,10 +2,10 @@ package middleware
 
 import (
 	"log"
-	"restful-template/database"
-	"restful-template/models"
-	"restful-template/response"
-	"restful-template/token"
+	"plagiarism-identify-server/database"
+	"plagiarism-identify-server/models"
+	"plagiarism-identify-server/response"
+	"plagiarism-identify-server/token"
 	"strings"
 
 	"github.com/gin-gonic/gin"

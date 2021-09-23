@@ -1,7 +1,7 @@
 package route
 
 import (
-	"restful-template/controllers"
+	"plagiarism-identify-server/controllers"
 
 	"github.com/gin-gonic/gin"
 )

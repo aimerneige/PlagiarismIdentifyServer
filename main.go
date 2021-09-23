@@ -1,9 +1,9 @@
 package main
 
 import (
-	"restful-template/config"
-	"restful-template/database"
-	"restful-template/route"
+	"plagiarism-identify-server/config"
+	"plagiarism-identify-server/database"
+	"plagiarism-identify-server/route"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"

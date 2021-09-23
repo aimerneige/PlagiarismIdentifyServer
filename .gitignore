@@ -30,7 +30,7 @@
 config/config.json
 
 ### target binary ###
-restful-template
+plagiarism-identify-server
 
 ### release binary ###
 release/*

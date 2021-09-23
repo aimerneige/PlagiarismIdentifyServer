@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"restful-template/database"
-	"restful-template/models"
-	"restful-template/response"
+	"plagiarism-identify-server/database"
+	"plagiarism-identify-server/models"
+	"plagiarism-identify-server/response"
 
 	"github.com/gin-gonic/gin"
 )

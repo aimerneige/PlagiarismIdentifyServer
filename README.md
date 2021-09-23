@@ -1,10 +1,13 @@
-# restful-template
+# Plagiarism Identidy Server
 
-## about
+![](img/华五智助教.png)
 
-todo
+## Requirements
 
-## thanks
+- golang
 
-- [Opus](https://github.com/fzf404/Opus) by [fzf404](https://github.com/fzf404).
-- <https://www.liwenzhou.com/posts/Go/jwt_in_gin/>
+## Run
+
+1. Edit database config into `./config/config.json`.
+2. Run `go build`
+3. ./plagiarism-identify-server

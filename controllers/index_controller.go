@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"restful-template/response"
+	"plagiarism-identify-server/response"
 	"time"
 
 	"github.com/gin-gonic/gin"

@@ -1,7 +1,7 @@
 package token
 
 import (
-	"restful-template/models"
+	"plagiarism-identify-server/models"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"

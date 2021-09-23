@@ -1,4 +1,4 @@
-module restful-template
+module plagiarism-identify-server
 
 go 1.16
 

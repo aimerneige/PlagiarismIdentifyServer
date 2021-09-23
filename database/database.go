@@ -3,7 +3,7 @@ package database
 import (
 	"fmt"
 	"log"
-	"restful-template/models"
+	"plagiarism-identify-server/models"
 
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
