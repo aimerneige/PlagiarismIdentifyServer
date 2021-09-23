@@ -1,0 +1,36 @@
+### golang ###
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+/vendor/
+/Godeps/
+
+### intellj ###
+.idea/
+*.iml
+
+### vscode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+.history/
+.history
+.ionide
+
+### Temporary ###
+*~
+
+### config file ###
+config/config.json
+
+### target binary ###
+restful-template
+
+### release binary ###
+release/*
