@@ -63,7 +63,6 @@ func Register(c *gin.Context) {
 		Email:    email,
 		Phone:    phone,
 		Password: string(hashPassword),
-		Super:    false,
 	}
 	db.Create(&newUser)
 
