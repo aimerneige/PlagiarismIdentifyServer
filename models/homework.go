@@ -12,24 +12,28 @@ import (
 
 type Homework struct {
 	gorm.Model
-	Title    string
-	Detail   string
-	Type     HomeworkType
-	Language ProgramLanguage
-	Files    []FileItem
-	DeadLine time.Time
+	Title            string
+	Detail           string
+	Type             HomeworkType
+	Language         ProgramLanguage
+	Files            []FileItem
+	DeadLine         time.Time
+	CourseID         uint
+	StudentHomeworks []StudentHomework
 }
 
 type HomeworkDto struct {
-	ID       uint            `json:"id"`
-	Title    string          `json:"title"`
-	Detail   string          `json:"detail"`
-	Type     HomeworkType    `json:"type"`
-	Language ProgramLanguage `json:"language"`
-	FileIDs  []uint          `json:"fileIds"`
-	CreateAt time.Time       `json:"createAt"`
-	UpdateAt time.Time       `json:"updateAt"`
-	DeadLine time.Time       `json:"deadLine"`
+	ID                 uint            `json:"id"`
+	Title              string          `json:"title"`
+	Detail             string          `json:"detail"`
+	Type               HomeworkType    `json:"type"`
+	Language           ProgramLanguage `json:"language"`
+	FileIDs            []uint          `json:"fileIds"`
+	CreateAt           time.Time       `json:"createAt"`
+	UpdateAt           time.Time       `json:"updateAt"`
+	DeadLine           time.Time       `json:"deadLine"`
+	CourseID           uint            `json:"courseId"`
+	StudentHomeworkIDs []uint          `json:"studentHomeworkIds"`
 }
 
 func (h Homework) ToDto(dto HomeworkDto) {
@@ -44,6 +48,10 @@ func (h Homework) ToDto(dto HomeworkDto) {
 	dto.CreateAt = h.CreatedAt
 	dto.UpdateAt = h.UpdatedAt
 	dto.DeadLine = h.DeadLine
+	dto.CourseID = h.CourseID
+	for _, studentHomework := range h.StudentHomeworks {
+		dto.StudentHomeworkIDs = append(dto.StudentHomeworkIDs, studentHomework.ID)
+	}
 
 	return
 }

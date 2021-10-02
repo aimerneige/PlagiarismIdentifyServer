@@ -5,7 +5,7 @@
 package models
 
 type User struct {
-	ID       uint
+	ID       uint `gorm:"primarykey"`
 	Account  string
 	Password string
 	Profile  FileItem
