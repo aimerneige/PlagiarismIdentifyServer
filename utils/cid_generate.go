@@ -7,8 +7,8 @@ import (
 
 var table = [...]byte{'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'}
 
-// GenerateHid Generate Homework Id
-func GenerateHid(max int) string {
+// GenerateCid Generate Class Id
+func GenerateCid(max int) string {
 	b := make([]byte, max)
 	n, err := io.ReadAtLeast(rand.Reader, b, max)
 	if n != max {
