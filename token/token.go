@@ -4,7 +4,7 @@ import (
 	"plagiarism-identify-server/models"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 const (
@@ -12,7 +12,7 @@ const (
 	SUBJECT = "user token"
 )
 
-var jwtKey = []byte("restful-template-secret")
+var jwtKey = []byte("plagiarism-identify-server-key")
 
 // ReleaseToken generate jwt token
 func ReleaseToken(user models.User, tokenExpireDuration time.Duration) (string, error) {
