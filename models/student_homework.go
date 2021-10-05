@@ -1,16 +1,40 @@
+// Copyright (c) 2021 AimerNeige
+// aimer.neige@aimerneige.com
+// All rights reserved.
+
 package models
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type StudentHomework struct {
 	gorm.Model
-	StudentID  uint
-	HomeworkID uint
-	FileItemID uint
+	StudentID   uint
+	HomeworkID  uint
+	FileItemIDs []uint
+	Upload      bool
+	UploadTime  time.Time
 }
 
 type StudentHomeworkDto struct {
-	ID         uint
-	StudentID  uint
-	HomeworkID uint
+	ID          uint      `json:"id"`
+	StudentID   uint      `json:"studentId"`
+	HomeworkID  uint      `json:"homeworkId"`
+	FileItemIDs []uint    `json:"fileItemIds"`
+	Upload      bool      `json:"upload"`
+	UploadTime  time.Time `json:"uploadTime"`
+}
+
+func (s StudentHomework) ToDto() (dto StudentHomeworkDto) {
+	dto.ID = s.ID
+	dto.StudentID = s.StudentID
+	dto.HomeworkID = s.HomeworkID
+	dto.FileItemIDs = s.FileItemIDs // TODO test for bug
+	dto.Upload = s.Upload
+	dto.UploadTime = s.UploadTime
+
+	return
 }
