@@ -60,11 +60,50 @@ traits:
           body:
             application/json:
               example: !include api-include-login-student-get-return-sample.json
-/register:
-  /teacher:
-  /student:
 /student:
+  description: 学生相关接口
+  post:
+    description: 注册学生帐号
+    body:
+      multipart/form-data:
+        properties:
+          account:
+            type: string
+            description: 用户帐号
+            example: 1907040101
+            required: true
+          password:
+            type: string
+            description: 用户密码
+            example: password1234
+            required: true
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include api-include-student-post-return-sample.json
 /teacher:
+  description: 教师相关接口
+  post:
+    description: 注册教师帐号
+    body:
+      multipart/form-data:
+        properties:
+          account:
+            type: string
+            description: 用户帐号
+            example: 1907040101
+            required: true
+          password:
+            type: string
+            description: 用户密码
+            example: password1234
+            required: true
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include api-include-teacher-post-return-sample.json
 /homework:
 /file:
   /upload:

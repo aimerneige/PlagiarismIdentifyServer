@@ -1,0 +1,8 @@
+{
+    "code": 201,
+    "data": {
+        "account": "1907040101",
+        "id": 1
+    },
+    "msg": "Register successful."
+}
