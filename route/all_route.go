@@ -8,6 +8,7 @@ import "github.com/gin-gonic/gin"
 
 func AllRouteCollection(r *gin.Engine) *gin.Engine {
 	r = IndexRouteCollection(r)
+	r = LoginRouteCollection(r)
 
 	return r
 }
