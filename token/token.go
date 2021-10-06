@@ -15,12 +15,13 @@ const (
 var jwtKey = []byte("plagiarism-identify-server-key")
 
 // ReleaseToken generate jwt token
-func ReleaseToken(user models.User, tokenExpireDuration time.Duration) (string, error) {
+func ReleaseToken(user models.User, isTeacher bool, tokenExpireDuration time.Duration) (string, error) {
 	currentTime := time.Now()
 	expirationTime := currentTime.Add(tokenExpireDuration)
 
 	claims := &Claims{
-		UserID: user.ID,
+		UserID:    user.ID,
+		IsTeacher: isTeacher,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 			IssuedAt:  currentTime.Unix(),
