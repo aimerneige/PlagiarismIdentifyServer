@@ -11,8 +11,11 @@ import (
 )
 
 func LoginRouteCollection(r *gin.Engine) *gin.Engine {
-	r.GET("/login/teacher", controllers.TeacherLogin)
-	r.GET("/login/student", controllers.StudentLogin)
+	v1 := r.Group("/api/v1")
+	login := v1.Group("/login")
+
+	login.GET("/teacher", controllers.TeacherLogin)
+	login.GET("/student", controllers.StudentLogin)
 
 	return r
 }
