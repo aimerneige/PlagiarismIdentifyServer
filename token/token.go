@@ -1,7 +1,6 @@
 package token
 
 import (
-	"plagiarism-identify-server/models"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -15,12 +14,12 @@ const (
 var jwtKey = []byte("plagiarism-identify-server-key")
 
 // ReleaseToken generate jwt token
-func ReleaseToken(user models.User, isTeacher bool, tokenExpireDuration time.Duration) (string, error) {
+func ReleaseToken(userId uint, isTeacher bool, tokenExpireDuration time.Duration) (string, error) {
 	currentTime := time.Now()
 	expirationTime := currentTime.Add(tokenExpireDuration)
 
 	claims := &Claims{
-		UserID:    user.ID,
+		UserID:    userId,
 		IsTeacher: isTeacher,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
