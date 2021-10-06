@@ -34,3 +34,6 @@ plagiarism-identify-server
 
 ### release binary ###
 release/*
+
+### raml output ###
+raml/api.html
