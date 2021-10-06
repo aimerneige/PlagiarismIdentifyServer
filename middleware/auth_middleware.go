@@ -15,6 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// StudentAuthMiddleware Middleware for student auth
 func StudentAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// check auth header
@@ -92,6 +93,7 @@ func TeacherAuthMiddleware() gin.HandlerFunc {
 	}
 }
 
+// headerCheck check header auth info
 func headerCheck(c *gin.Context) (statusCode int, msg string, data interface{}, claims *token.Claims) {
 	statusCode = http.StatusOK
 	msg = ""
