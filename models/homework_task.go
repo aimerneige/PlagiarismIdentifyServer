@@ -10,19 +10,19 @@ import (
 	"gorm.io/gorm"
 )
 
-type Homework struct {
+type HomeworkTask struct {
 	gorm.Model
 	Title            string
 	Detail           string
 	Type             HomeworkType
 	Language         ProgramLanguage
-	Files            []FileItem
+	Files            []TaskFile
 	DeadLine         time.Time
 	CourseID         uint
 	StudentHomeworks []StudentHomework
 }
 
-type HomeworkDto struct {
+type HomeworkTaskDto struct {
 	ID                 uint            `json:"id"`
 	Title              string          `json:"title"`
 	Detail             string          `json:"detail"`
@@ -36,7 +36,7 @@ type HomeworkDto struct {
 	StudentHomeworkIDs []uint          `json:"studentHomeworkIds"`
 }
 
-func (h Homework) ToDto(dto HomeworkDto) {
+func (h HomeworkTask) ToDto(dto HomeworkTaskDto) {
 	dto.ID = h.ID
 	dto.Title = h.Title
 	dto.Detail = h.Detail

@@ -49,8 +49,9 @@ func InitSQL() *gorm.DB {
 	db.AutoMigrate(&models.Teacher{})
 	db.AutoMigrate(&models.Student{})
 	db.AutoMigrate(&models.Course{})
-	db.AutoMigrate(&models.Homework{})
-	db.AutoMigrate(&models.FileItem{})
+	db.AutoMigrate(&models.TaskFile{})
+	db.AutoMigrate(&models.HomeworkFile{})
+	db.AutoMigrate(&models.HomeworkTask{})
 	db.AutoMigrate(&models.StudentHomework{})
 
 	DB = db

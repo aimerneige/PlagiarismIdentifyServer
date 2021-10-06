@@ -28,23 +28,26 @@ const (
 	PROGRAM_PYTHON = ".py"
 )
 
-type FileItem struct {
+type HomeworkFile struct {
 	gorm.Model
-	Name string
-	Path string
+	Name              string
+	Path              string
+	StudentHomeworkID uint
 }
 
-type FileItemDto struct {
-	ID   uint   `json:"id"`
-	Name string `json:"name"`
+type HomeworkFileDto struct {
+	ID                uint   `json:"id"`
+	Name              string `json:"name"`
+	StudentHomeworkID uint   `json:"studentHomeworkId"`
 }
 
-func (f FileItem) ToDto(dto FileItemDto) {
+func (f HomeworkFile) ToDto(dto HomeworkFileDto) {
 	dto.ID = f.ID
 	dto.Name = f.Name
+	dto.StudentHomeworkID = f.StudentHomeworkID
 }
 
-func (f FileItem) IsImage() (ret bool) {
+func (f HomeworkFile) IsImage() (ret bool) {
 	ret = false
 	fileName := strings.ToLower(f.Name)
 	if strings.HasSuffix(fileName, IMAGE_JPG) {
@@ -62,7 +65,7 @@ func (f FileItem) IsImage() (ret bool) {
 	return
 }
 
-func (f FileItem) IsDocument() (ret bool) {
+func (f HomeworkFile) IsDocument() (ret bool) {
 	ret = false
 	fileName := strings.ToLower(f.Name)
 	if strings.HasSuffix(fileName, DOCUMENT_TXT) {
@@ -83,7 +86,7 @@ func (f FileItem) IsDocument() (ret bool) {
 	return
 }
 
-func (f FileItem) IsProgram() (ret bool) {
+func (f HomeworkFile) IsProgram() (ret bool) {
 	ret = false
 	fileName := strings.ToLower(f.Name)
 	if strings.HasSuffix(fileName, PROGRAM_JAVA) {
