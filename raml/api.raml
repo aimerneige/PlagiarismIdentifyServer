@@ -1,0 +1,71 @@
+#%RAML 1.0
+---
+title: Plagiarism Identify Server
+baseUri: http://example.com/api/{version}
+version: v1
+
+
+traits:
+  hasAuth:
+    headers:
+      Authorization:
+        type: string
+        description: Bearer token
+        example:  Bearer <token string>
+        required: true
+
+/login:
+  description: 用户登录
+  /teacher:
+    description: 老师登录
+    get:
+      description: 登录获取 token
+      body:
+        multipart/form-data:
+          properties:
+            account:
+              type: string
+              description: 用户帐号
+              example: 1907040101
+              required: true
+            password:
+              type: string
+              description: 用户密码
+              example: password1234
+              required: true
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include api-include-login-teacher-get-return-sample.json
+  /student:
+    description: 学生登录
+    get:
+      description: 登录获取 token
+      body:
+        multipart/form-data:
+          properties:
+            account:
+              type: string
+              description: 用户帐号
+              example: 1907040101
+              required: true
+            password:
+              type: string
+              description: 用户密码
+              example: password1234
+              required: true
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include api-include-login-student-get-return-sample.json
+/register:
+  /teacher:
+  /student:
+/student:
+/teacher:
+/homework:
+/file:
+  /upload:
+  /download:
