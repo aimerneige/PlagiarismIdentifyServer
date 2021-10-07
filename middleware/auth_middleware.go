@@ -49,7 +49,7 @@ func StudentAuthMiddleware() gin.HandlerFunc {
 		}
 
 		// write auth user into context
-		c.Set("authUser", student)
+		c.Set("authStudent", student)
 		c.Next()
 	}
 }
@@ -88,7 +88,7 @@ func TeacherAuthMiddleware() gin.HandlerFunc {
 		}
 
 		// write auth user into context
-		c.Set("authUser", teacher)
+		c.Set("authTeacher", teacher)
 		c.Next()
 	}
 }
