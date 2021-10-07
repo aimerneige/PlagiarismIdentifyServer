@@ -46,3 +46,11 @@ func StudentRegister(c *gin.Context) {
 		"account": newStudent.Account,
 	}, "Register successful.")
 }
+
+func StudentInfoUpdate(c *gin.Context) {
+
+}
+
+func StudentProfileUpdate(c *gin.Context) {
+
+}
