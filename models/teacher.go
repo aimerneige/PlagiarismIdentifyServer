@@ -20,7 +20,6 @@ type Teacher struct {
 type TeacherDto struct {
 	ID        uint   `json:"id"`
 	Account   string `json:"account"`
-	Password  string `json:"password"`
 	Profile   string `json:"profile"`
 	Name      string `json:"name"`
 	Phone     string `json:"phone"`
