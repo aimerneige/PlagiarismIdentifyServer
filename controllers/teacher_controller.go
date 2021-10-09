@@ -100,7 +100,7 @@ func TeacherInfoUpdate(c *gin.Context) {
 
 	response.OK(c, gin.H{
 		"id":    teacher.ID,
-		"name":  teacher.ID,
+		"name":  teacher.Name,
 		"phone": teacher.Phone,
 		"email": teacher.Email,
 	}, "User Info Update Successful.")
