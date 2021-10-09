@@ -23,4 +23,6 @@ func (f TaskFile) ToDto() (dto TaskFileDto) {
 	dto.ID = f.ID
 	dto.Name = f.Name
 	dto.HomeworkTaskID = f.HomeworkTaskID
+
+	return
 }

@@ -39,4 +39,6 @@ func (t Teacher) ToDto() (dto TeacherDto) {
 	for _, course := range t.Courses {
 		dto.CourseIDs = append(dto.CourseIDs, course.ID)
 	}
+
+	return
 }

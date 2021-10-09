@@ -45,6 +45,8 @@ func (f HomeworkFile) ToDto() (dto HomeworkFileDto) {
 	dto.ID = f.ID
 	dto.Name = f.Name
 	dto.StudentHomeworkID = f.StudentHomeworkID
+
+	return
 }
 
 func (f HomeworkFile) IsImage() (ret bool) {

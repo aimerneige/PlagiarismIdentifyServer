@@ -30,7 +30,7 @@ type StudentHomeworkDto struct {
 	IsPlagiarism   bool      `json:"isPlagiarism"`
 }
 
-func (s StudentHomework) ToDto() () (dto StudentHomeworkDto) {
+func (s StudentHomework) ToDto() (dto StudentHomeworkDto) {
 	dto.ID = s.ID
 	dto.StudentID = s.StudentID
 	dto.HomeworkTaskID = s.HomeworkTaskID
