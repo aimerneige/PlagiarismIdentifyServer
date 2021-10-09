@@ -28,7 +28,7 @@ type TeacherDto struct {
 	CourseIDs []uint `json:"courseIds"`
 }
 
-func (t Teacher) ToDto(dto TeacherDto) {
+func (t Teacher) ToDto() (dto TeacherDto) {
 	dto.ID = t.ID
 	dto.Account = t.Account
 	dto.Password = t.Password

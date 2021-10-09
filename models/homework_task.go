@@ -36,7 +36,7 @@ type HomeworkTaskDto struct {
 	StudentHomeworkIDs []uint          `json:"studentHomeworkIds"`
 }
 
-func (h HomeworkTask) ToDto(dto HomeworkTaskDto) {
+func (h HomeworkTask) ToDto() (dto HomeworkTaskDto) {
 	dto.ID = h.ID
 	dto.Title = h.Title
 	dto.Detail = h.Detail

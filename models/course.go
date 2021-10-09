@@ -38,7 +38,3 @@ func (c Course) ToDto() (dto ClassDto) {
 
 	return
 }
-
-func (c Course) GetStudentCount() (count int) {
-	return len(c.Students)
-}

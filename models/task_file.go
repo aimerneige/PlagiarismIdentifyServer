@@ -19,7 +19,7 @@ type TaskFileDto struct {
 	HomeworkTaskID uint   `json:"homeworkTaskId"`
 }
 
-func (f TaskFile) ToDto(dto TaskFileDto) {
+func (f TaskFile) ToDto() (dto TaskFileDto) {
 	dto.ID = f.ID
 	dto.Name = f.Name
 	dto.HomeworkTaskID = f.HomeworkTaskID
