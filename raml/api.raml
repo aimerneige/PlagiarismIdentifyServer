@@ -151,7 +151,7 @@ traits:
           body:
             application/json:
               example: !include api-include-teacher-id-delete-return-sample.json
-    /profile:
+    /avatar:
       description: 用户头像相关接口
       get:
         description: 获取用户头像
@@ -159,14 +159,14 @@ traits:
           200:
             body:
               application/json:
-                example: !include api-include-teacher-id-profile-get-return-sample.json
+                example: !include api-include-teacher-id-avatar-get-return-sample.json
       put:
         is: ["hasAuth"]
         description: 修改用户头像
         body:
           multipart/form-data:
             properties:
-              profile:
+              avatar:
                 type: file
                 fileTypes: ['image/jpeg', 'image/png']
                 maxLength: 307200
@@ -176,7 +176,7 @@ traits:
           200:
             body:
               application/json:
-                example: !include api-include-teacher-id-profile-put-return-sample.json
+                example: !include api-include-teacher-id-avatar-put-return-sample.json
     /name:
       description: 用户姓名相关接口
       put:

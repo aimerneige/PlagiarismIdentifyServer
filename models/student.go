@@ -10,7 +10,7 @@ type Student struct {
 	gorm.Model
 	Account  string
 	Password string
-	Profile  string
+	Avatar   string
 	Name     string
 	Phone    string
 	Email    string
@@ -20,7 +20,7 @@ type Student struct {
 type StudentDto struct {
 	ID        uint   `json:"id"`
 	Account   string `json:"account"`
-	Profile   string `json:"profile"`
+	Avatar    string `json:"avatar"`
 	Name      string `json:"name"`
 	Phone     string `json:"phone"`
 	Email     string `json:"email"`
@@ -30,8 +30,7 @@ type StudentDto struct {
 func (s Student) ToDto() (dto StudentDto) {
 	dto.ID = s.ID
 	dto.Account = s.Account
-	dto.Password = s.Password
-	// dto.Profile = "TODO DOWNLOAD LINK" // TODO
+	dto.Avatar = s.Avatar
 	dto.Name = s.Name
 	dto.Phone = s.Phone
 	dto.Email = s.Email

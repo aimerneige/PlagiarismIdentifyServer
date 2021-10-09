@@ -51,6 +51,6 @@ func StudentInfoUpdate(c *gin.Context) {
 
 }
 
-func StudentProfileUpdate(c *gin.Context) {
+func StudentAvatarUpdate(c *gin.Context) {
 
 }

@@ -106,7 +106,11 @@ func TeacherInfoUpdate(c *gin.Context) {
 	}, "User Info Update Successful.")
 }
 
-func TeacherProfileUpdate(c *gin.Context) {
+func TeacherAvatarGet(c *gin.Context) {
+	// TODO
+}
+
+func TeacherAvatarUpdate(c *gin.Context) {
 	// TODO
 }
 
