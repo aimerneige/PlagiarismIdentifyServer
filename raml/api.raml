@@ -154,6 +154,7 @@ traits:
     /avatar:
       description: 用户头像相关接口
       get:
+        is: ["hasAuth"]
         description: 获取用户头像
         responses:
           200:
