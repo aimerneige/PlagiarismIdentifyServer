@@ -33,8 +33,10 @@ func TeacherRouteCollection(r *gin.Engine) *gin.Engine {
 	teacherIdAuthPermission.DELETE("", controllers.TeacherDelete)
 
 	teacherIdAuthPermissionAvatar := teacherIdAuthPermission.Group("/avatar")
-	teacherIdAuthPermissionAvatar.GET("", controllers.TeacherAvatarGet)
 	teacherIdAuthPermissionAvatar.POST("", controllers.TeacherAvatarUpdate)
+
+	teacherIdAuthAvatar := teacherIdAuth.Group("/avatar")
+	teacherIdAuthAvatar.GET("", controllers.TeacherAvatarGet)
 
 	teacherIdAuthPermissionName := teacherIdAuthPermission.Group("/name")
 	teacherIdAuthPermissionName.PUT("", controllers.TeacherNameUpdate)
