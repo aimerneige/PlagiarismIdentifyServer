@@ -1,0 +1,10 @@
+{
+    "code": 200,
+    "data": {
+        "id": 1,
+        "name": "张三",
+        "phone": "13735667891",
+        "email": "user@example.com"
+    },
+    "msg": "User Info Update Successful."
+}
