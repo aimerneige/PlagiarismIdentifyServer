@@ -213,7 +213,10 @@ func TeacherDelete(c *gin.Context) {
 		return
 	}
 
-	response.NoContent(c, nil, "Delete Successful")
+	response.OK(c, gin.H{
+		"id":      teacher.ID,
+		"account": teacher.Account,
+	}, "Delete Successful.")
 }
 
 func getTeacherWithId(c *gin.Context) (models.Teacher, bool) {
