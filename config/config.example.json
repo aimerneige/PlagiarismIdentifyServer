@@ -1,6 +1,7 @@
 {
     "common": {
-        "port": "6000"
+        "port": "6000",
+        "path": "/opt/PlagiarismIdentifyServer/file"
     },
     "mysql": {
         "username": "root",
