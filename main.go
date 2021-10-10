@@ -19,7 +19,7 @@ func main() {
 
 	r := gin.Default()
 
-	r.MaxMultipartMemory = 2 << 20
+	r.MaxMultipartMemory = 8 << 20 // 8 MiB
 
 	r = route.AllRouteCollection(r)
 
