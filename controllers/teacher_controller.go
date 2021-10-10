@@ -139,7 +139,7 @@ func TeacherNameUpdate(c *gin.Context) {
 
 	response.OK(c, gin.H{
 		"id":   teacher.ID,
-		"name": teacher.ID,
+		"name": teacher.Name,
 	}, "User Name Update Successful.")
 }
 
