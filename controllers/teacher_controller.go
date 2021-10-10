@@ -214,8 +214,7 @@ func TeacherDelete(c *gin.Context) {
 	}
 
 	response.OK(c, gin.H{
-		"id":      teacher.ID,
-		"account": teacher.Account,
+		"id": teacher.ID,
 	}, "Delete Successful.")
 }
 
