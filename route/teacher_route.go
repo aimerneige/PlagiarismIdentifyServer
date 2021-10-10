@@ -19,5 +19,31 @@ func TeacherRouteCollection(r *gin.Engine) *gin.Engine {
 	teacherRegister.Use(middleware.RegisterMiddleware())
 	teacherRegister.POST("", controllers.TeacherRegister)
 
+	teacherId := teacher.Group(":id/")
+
+	teacherIdAuth := teacherId.Group("")
+	teacherIdAuth.Use(middleware.TeacherAuthMiddleware())
+
+	teacherIdAuth.GET("", controllers.TeacherInfoGet)
+
+	teacherIdAuthPermission := teacherIdAuth.Group("")
+	teacherIdAuthPermission.Use(middleware.TeacherPermissionMiddleware())
+
+	teacherIdAuthPermission.PUT("", controllers.TeacherInfoUpdate)
+	teacherIdAuthPermission.DELETE("", controllers.TeacherDelete)
+
+	teacherIdAuthPermissionAvatar := teacherIdAuthPermission.Group("/avatar")
+	teacherIdAuthPermissionAvatar.GET("", controllers.TeacherAvatarGet)
+	teacherIdAuthPermissionAvatar.POST("", controllers.TeacherAvatarUpdate)
+
+	teacherIdAuthPermissionName := teacherIdAuthPermission.Group("/name")
+	teacherIdAuthPermissionName.PUT("", controllers.TeacherNameUpdate)
+
+	teacherIdAuthPermissionPhone := teacherIdAuthPermission.Group("/phone")
+	teacherIdAuthPermissionPhone.PUT("", controllers.TeacherPhoneUpdate)
+
+	teacherIdAuthPermissionEmail := teacherIdAuthPermission.Group("/email")
+	teacherIdAuthPermissionEmail.PUT("", controllers.TeacherEmailUpdate)
+
 	return r
 }
