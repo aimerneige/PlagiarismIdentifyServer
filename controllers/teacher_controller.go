@@ -107,7 +107,16 @@ func TeacherInfoUpdate(c *gin.Context) {
 }
 
 func TeacherAvatarGet(c *gin.Context) {
-	// TODO
+	// teacher
+	teacher, hasError := getTeacherWithId(c)
+	if hasError {
+		return
+	}
+
+	response.OK(c, gin.H{
+		"id":     teacher.ID,
+		"avatar": teacher.Avatar,
+	}, "Get User Avatar Successful.")
 }
 
 func TeacherAvatarUpdate(c *gin.Context) {
