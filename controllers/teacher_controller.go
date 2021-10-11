@@ -5,6 +5,10 @@
 package controllers
 
 import (
+	"fmt"
+	"net/http"
+	"os"
+	"path/filepath"
 	"plagiarism-identify-server/bean"
 	"plagiarism-identify-server/database"
 	"plagiarism-identify-server/models"
@@ -13,6 +17,7 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
 func TeacherRegister(c *gin.Context) {
@@ -120,7 +125,82 @@ func TeacherAvatarGet(c *gin.Context) {
 }
 
 func TeacherAvatarUpdate(c *gin.Context) {
-	// TODO
+	// teacher
+	teacher, hasError := getTeacherWithId(c)
+	if hasError {
+		return
+	}
+
+	// avatar file
+	file, header, err := c.Request.FormFile("avatar")
+	if err != nil {
+		response.BadRequest(c, err, "Fail to read form file.")
+		return
+	}
+	defer file.Close()
+
+	// check if file are image or not
+	buff := make([]byte, 512)
+	if _, err = file.Read(buff); err != nil {
+		response.InternalServerError(c, err, "Fail to read avatar file into buff.")
+		return
+	}
+	if contentType := http.DetectContentType(buff); !strings.HasPrefix(contentType, "image") {
+		response.BadRequest(c, contentType, "Not a image file.")
+		return
+	}
+	fileExt := filepath.Ext(header.Filename)
+	if fileExt != ".png" && fileExt != ".jpg" && fileExt != ".jpeg" {
+		response.BadRequest(c, nil, "Not a jpeg or png file.")
+		return
+	}
+
+	// save file to disks
+	rootPath := viper.GetString("common.path")                          // /opt/software/file
+	fileName := "avatar" + fileExt                                      // avatar.jpg
+	avatarDirectory := filepath.Join("avatar/teacher", teacher.Account) // avatar/teacher/1907040101
+	destDirectory := filepath.Join(rootPath, avatarDirectory)           // /opt/software/file/avatar/teacher/1907040101
+	avatarFile := filepath.Join(avatarDirectory, fileName)              // avatar/teacher/1907040101/avatar.jpg
+	destFile := filepath.Join(destDirectory, fileName)                  // /opt/software/file/avatar/teacher/1907040101/avatar.jpg
+	if !utils.CheckDirExist(destDirectory) {
+		os.Mkdir(destDirectory, 0755)
+	}
+	if err := c.SaveUploadedFile(header, destFile); err != nil {
+		response.InternalServerError(c, err, "Fail to save file to disk.")
+		return
+	}
+
+	// avatar download link
+	secure := viper.GetString("common.secure")
+	baseUrl := viper.GetString("common.baseUrl")
+	routePath := "file/"
+	port := viper.GetString("common.port")
+	if port == "80" {
+		port = ""
+	} else {
+		port = ":" + port
+	}
+	avatarLink := fmt.Sprintf("%s://%s%s/%s%s",
+		secure,
+		baseUrl,
+		port,
+		routePath,
+		avatarFile,
+	)
+	// http://example.com/file/avatar/teacher/1907040101/avatar.jpg
+
+	// save to database
+	teacher.Avatar = avatarLink
+
+	if err := database.GetDB().Save(&teacher).Error; err != nil {
+		response.InternalServerError(c, err, "Database Save Error.")
+		return
+	}
+
+	response.OK(c, gin.H{
+		"id":     teacher.ID,
+		"avatar": teacher.Avatar,
+	}, "Update User Avatar Successful.")
 }
 
 func TeacherNameUpdate(c *gin.Context) {
