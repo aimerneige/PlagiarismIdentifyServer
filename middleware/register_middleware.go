@@ -7,6 +7,7 @@ package middleware
 import (
 	"plagiarism-identify-server/bean"
 	"plagiarism-identify-server/response"
+	"plagiarism-identify-server/utils"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -32,7 +33,7 @@ func RegisterMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		if isWeakPassword(password) {
+		if utils.IsWeakPassword(password) {
 			response.BadRequest(c, password, "Weak Password.")
 			c.Abort()
 			return
@@ -59,45 +60,4 @@ func RegisterMiddleware() gin.HandlerFunc {
 		c.Set("registerUser", registerUser)
 		c.Next()
 	}
-}
-
-// isWeakPassword simply check if password is weak password
-func isWeakPassword(password string) bool {
-	if password == "00000000" {
-		return true
-	}
-	if password == "000000000" {
-		return true
-	}
-	if password == "11111111" {
-		return true
-	}
-	if password == "111111111" {
-		return true
-	}
-	if password == "66666666" {
-		return true
-	}
-	if password == "666666666" {
-		return true
-	}
-	if password == "88888888" {
-		return true
-	}
-	if password == "888888888" {
-		return true
-	}
-	if password == "11223344" {
-		return true
-	}
-	if password == "12345678" {
-		return true
-	}
-	if password == "123456789" {
-		return true
-	}
-	if password == "password" {
-		return true
-	}
-	return false
 }
