@@ -1,7 +1,9 @@
 {
     "common": {
         "port": "6000",
-        "path": "/opt/PlagiarismIdentifyServer/file"
+        "path": "/opt/PlagiarismIdentifyServer/file",
+        "secure": "http",
+        "baseUrl": "example.com"
     },
     "mysql": {
         "username": "root",
