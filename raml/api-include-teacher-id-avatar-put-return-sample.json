@@ -1,0 +1,8 @@
+{
+    "code": 200,
+    "data": {
+        "id": 1,
+        "avatar": "http://example.com/file/avatar/teacher/1907040101/avatar.jpg"
+    },
+    "msg": "Update User Avatar Successful."
+}
