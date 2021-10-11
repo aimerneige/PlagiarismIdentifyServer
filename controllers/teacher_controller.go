@@ -307,6 +307,10 @@ func TeacherDelete(c *gin.Context) {
 	}, "Delete Successful.")
 }
 
+func TeacherPasswordUpdate(c *gin.Context) {
+
+}
+
 func getTeacherWithId(c *gin.Context) (models.Teacher, bool) {
 	var teacher models.Teacher
 

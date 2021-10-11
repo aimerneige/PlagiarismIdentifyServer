@@ -47,5 +47,8 @@ func TeacherRouteCollection(r *gin.Engine) *gin.Engine {
 	teacherIdAuthPermissionEmail := teacherIdAuthPermission.Group("/email")
 	teacherIdAuthPermissionEmail.PUT("", controllers.TeacherEmailUpdate)
 
+	teacherIdAuthPermissionPassword := teacherIdAuthPermission.Group("/password")
+	teacherIdAuthPermissionPassword.PUT("", controllers.TeacherUpdatePassword)
+
 	return r
 }
