@@ -232,6 +232,29 @@ traits:
             body:
               application/json:
                 example: !include api-include-teacher-id-email-put-return-sample.json
+    /password:
+      description: 用户密码相关接口
+      put:
+        is: ["hasAuth"]
+        description: 修改用户密码
+        body:
+          multipart/form-data:
+            properties:
+              old:
+                type: string
+                description: 旧密码
+                example: password123
+                required: true
+              new:
+                type: string
+                description: 新密码
+                example: passcode123
+                required: true
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include api-include-teacher-id-password-put-return-sample.json
 /homework:
 /file:
   /upload:
