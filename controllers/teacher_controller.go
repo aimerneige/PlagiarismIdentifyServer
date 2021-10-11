@@ -18,6 +18,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func TeacherRegister(c *gin.Context) {
@@ -308,7 +309,61 @@ func TeacherDelete(c *gin.Context) {
 }
 
 func TeacherPasswordUpdate(c *gin.Context) {
+	// teacher
+	teacher, hasError := getTeacherWithId(c)
+	if hasError {
+		return
+	}
 
+	old := c.PostForm("old")
+	new := c.PostForm("new")
+	if old == new {
+		response.BadRequest(c, nil, "New Password can not be same with old one.")
+		return
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(teacher.Password), []byte(old)); err != nil {
+		response.BadRequest(c, nil, "Wrong Password.")
+		return
+	}
+
+	if len(new) < 8 || len(new) > 16 {
+		response.BadRequest(c, gin.H{
+			"password": new,
+			"length":   len(new),
+		}, "Password length must between 8 and 16.")
+		c.Abort()
+		return
+	}
+	if utils.IsWeakPassword(new) {
+		response.BadRequest(c, new, "Weak Password.")
+		c.Abort()
+		return
+	}
+	if new == teacher.Account {
+		response.BadRequest(c, nil, "Password can not be same with account.")
+		c.Abort()
+		return
+	}
+	hashPassword, err := bcrypt.GenerateFromPassword([]byte(new), bcrypt.DefaultCost)
+	if err != nil {
+		response.InternalServerError(c, err, "Crypt Unsuccessful.")
+		c.Abort()
+		return
+	}
+
+	teacher.Password = string(hashPassword)
+
+	// save to database
+	if err := database.GetDB().Save(teacher).Error; err != nil {
+		response.InternalServerError(c, err, "Database Save Error.")
+		return
+	}
+
+	response.OK(c, gin.H{
+		"id":      teacher.ID,
+		"account": teacher.Account,
+	}, "User Password Update Successful.")
 }
 
 func getTeacherWithId(c *gin.Context) (models.Teacher, bool) {
