@@ -82,6 +82,158 @@ traits:
         body:
           application/json:
             example: !include api-include-student-post-return-sample.json
+  /{id}:
+    uriParameters:
+      id:
+        description: 用户 id
+        type: integer
+    get:
+      is: ["hasAuth"]
+      description: 获取学生信息
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include api-include-student-id-get-return-sample.json
+    put:
+      is: ["hasAuth"]
+      description: 更新学生信息
+      body:
+        multipart/form-data:
+          properties:
+            name:
+              type: string
+              description: 姓名
+              example: 张三
+              required: true
+            phone:
+              type: string
+              description: 手机号
+              example: 13735667891
+              required: true
+            email:
+              type: string
+              description: 邮箱
+              example: user@example.com
+              required: true
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include api-include-student-id-put-return-sample.json
+    delete:
+      is: ["hasAuth"]
+      description: 注销学生帐号
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include api-include-student-id-delete-return-sample.json
+    /avatar:
+      description: 用户头像相关接口
+      get:
+        is: ["hasAuth"]
+        description: 获取用户头像
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include api-include-student-id-avatar-get-return-sample.json
+      put:
+        is: ["hasAuth"]
+        description: 修改用户头像
+        body:
+          multipart/form-data:
+            properties:
+              avatar:
+                type: file
+                fileTypes: ['image/jpeg', 'image/png']
+                maxLength: 307200
+                description: 头像
+                required: true
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include api-include-student-id-avatar-put-return-sample.json
+    /name:
+      description: 用户姓名相关接口
+      put:
+        is: ["hasAuth"]
+        description: 修改用户姓名
+        body:
+          multipart/form-data:
+            properties:
+              name:
+                type: string
+                description: 姓名
+                example: 张三
+                required: true
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include api-include-student-id-name-put-return-sample.json
+    /phone:
+      description: 用户手机号相关接口
+      put:
+        is: ["hasAuth"]
+        description: 修改用户手机号
+        body:
+          multipart/form-data:
+            properties:
+              phone:
+                type: string
+                description: 手机号
+                example: 13735667891
+                required: true
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include api-include-student-id-phone-put-return-sample.json
+    /email:
+      description: 用户邮箱相关接口
+      put:
+        is: ["hasAuth"]
+        description: 修改用户邮箱
+        body:
+          multipart/form-data:
+            properties:
+              email:
+                type: string
+                description: 邮箱
+                example: user@example.com
+                required: true
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include api-include-student-id-email-put-return-sample.json
+    /password:
+      description: 用户密码相关接口
+      put:
+        is: ["hasAuth"]
+        description: 修改用户密码
+        body:
+          multipart/form-data:
+            properties:
+              old:
+                type: string
+                description: 旧密码
+                example: password123
+                required: true
+              new:
+                type: string
+                description: 新密码
+                example: passcode123
+                required: true
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include api-include-student-id-password-put-return-sample.json
+
 /teacher:
   description: 教师相关接口
   post:
@@ -255,6 +407,30 @@ traits:
             body:
               application/json:
                 example: !include api-include-teacher-id-password-put-return-sample.json
+/course:
+  description: 课程相关接口
+  post:
+    description: 新建课程
+  /{id}:
+    uriParameters:
+      id:
+        description: 课程 id
+        type: integer
+    get:
+      description: 获取课程信息
+    put:
+      description: 更新课程信息
+    delete:
+      description: 删除课程
+    /title:
+    /student:
+      get:
+      post:
+      delete:
+    /task:
+      get:
+      post:
+      delete:
 /homework:
 /file:
   /upload:
