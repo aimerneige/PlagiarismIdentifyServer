@@ -30,13 +30,25 @@ func CourseCreate(c *gin.Context) {
 		return
 	}
 
+	db := database.GetDB()
+
+	var courseTemp models.Course
+	var cid string = utils.GenerateCid(6)
+	for true {
+		db.Where("CourseCode = ?", cid).First(&courseTemp)
+		if courseTemp.ID == 0 {
+			break
+		}
+		cid = utils.GenerateCid(6)
+	}
+
 	course := models.Course{
 		Title:      title,
-		CourseCode: utils.GenerateCid(6),
+		CourseCode: cid,
 		TeacherID:  authTeacher.(models.Teacher).ID,
 	}
 
-	if err := database.GetDB().Create(&course).Error; err != nil {
+	if err := db.Create(&course).Error; err != nil {
 		response.InternalServerError(c, err, "Database Save Error.")
 		return
 	}
