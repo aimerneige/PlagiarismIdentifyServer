@@ -422,16 +422,24 @@ traits:
       description: 更新课程信息
     delete:
       description: 删除课程
-    /title:
     /student:
       get:
+        description: 获取学生列表
       post:
+        description: 学生参加课程
       delete:
+        description: 学生退出课程
     /task:
       get:
+        description: 获取课程作业任务
       post:
+        description: 教师发布作业任务
+      put:
+        description: 教师更新作业任务
       delete:
+        description: 教师删除作业任务
 /homework:
+  description: 学生作业相关接口
 /file:
   /upload:
   /download:
