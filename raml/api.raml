@@ -410,18 +410,58 @@ traits:
 /course:
   description: 课程相关接口
   post:
+    is: ["hasAuth"]
     description: 新建课程
+    body:
+      multipart/form-data:
+        properties:
+          title:
+            type: string
+            description: 课程标题
+            example: 高等数学
+            required: true
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include api-include-course-post-return-sample.json
   /{id}:
     uriParameters:
       id:
         description: 课程 id
         type: integer
     get:
+      is: ["hasAuth"]
       description: 获取课程信息
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include api-include-course-id-get-return-sample.json
     put:
+      is: ["hasAuth"]
       description: 更新课程信息
+      body:
+        multipart/form-data:
+          properties:
+            title:
+              type: string
+              description: 课程标题
+              example: 高等数学
+              required: true
+      responses:
+        201:
+          body:
+            application/json:
+              example: !include api-include-course-id-put-return-sample.json
     delete:
+      is: ["hasAuth"]
       description: 删除课程
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include api-include-course-id-delete-return-sample.json
     /student:
       get:
         description: 获取学生列表
