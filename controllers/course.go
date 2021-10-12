@@ -10,6 +10,7 @@ import (
 	"plagiarism-identify-server/models"
 	"plagiarism-identify-server/response"
 	"plagiarism-identify-server/utils"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -244,7 +245,57 @@ func CourseTaskGet(c *gin.Context) {
 }
 
 func CourseTaskCreate(c *gin.Context) {
+	// title
+	title := c.PostForm("title")
+	if len(strings.TrimSpace(title)) == 0 {
+		response.BadRequest(c, nil, "Title required.")
+		return
+	}
+	// detail
+	detail := c.PostForm("detail")
+	if len(strings.TrimSpace(detail)) == 0 {
+		response.BadRequest(c, nil, "Detail required.")
+		return
+	}
+	// homework
+	homeworkType := c.PostForm("type")
+	homeworkTypeValue, err := strconv.Atoi(homeworkType)
+	if err != nil {
+		response.BadRequest(c, nil, "Wrong Args.")
+		return
+	}
+	if homeworkTypeValue < 0 || homeworkTypeValue > 2 {
+		response.BadRequest(c, nil, "Wrong Type.")
+		return
+	}
 
+	// language
+	language := c.PostForm("language")
+	languageValue, err := strconv.Atoi(language)
+	if err != nil {
+		response.BadRequest(c, nil, "Wrong Args.")
+		return
+	}
+	if languageValue < 0 || languageValue > 3 {
+		response.BadRequest(c, nil, "Wrong Type.")
+		return
+	}
+
+	task := models.HomeworkTask{
+		Title:    title,
+		Detail:   detail,
+		Type:     models.HomeworkType(homeworkTypeValue),
+		Language: models.ProgramLanguage(languageValue),
+	}
+
+	if err := database.GetDB().Create(&task).Error; err != nil {
+		response.InternalServerError(c, err, "Database Save Error.")
+		return
+	}
+
+	response.Created(c, gin.H{
+		"id": task.ID,
+	}, "Task Create Successful.")
 }
 
 func CourseTaskUpdate(c *gin.Context) {
