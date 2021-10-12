@@ -8,3 +8,8 @@ type RegisterUser struct {
 	Account  string
 	Password string
 }
+
+type AuthUser struct {
+	UserID    uint
+	IsTeacher bool
+}

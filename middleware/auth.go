@@ -6,6 +6,7 @@ package middleware
 
 import (
 	"net/http"
+	"plagiarism-identify-server/bean"
 	"plagiarism-identify-server/database"
 	"plagiarism-identify-server/models"
 	"plagiarism-identify-server/response"
@@ -89,6 +90,26 @@ func TeacherAuthMiddleware() gin.HandlerFunc {
 
 		// write auth user into context
 		c.Set("authTeacher", teacher)
+		c.Next()
+	}
+}
+
+func UserAuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// check auth header
+		statusCode, msg, data, claims := headerCheck(c)
+		if statusCode != http.StatusOK {
+			response.StatusCode(c, statusCode, data, msg)
+			c.Abort()
+			return
+		}
+
+		authUser := bean.AuthUser{
+			UserID:    claims.UserID,
+			IsTeacher: claims.IsTeacher,
+		}
+
+		c.Set("authUser", authUser)
 		c.Next()
 	}
 }
