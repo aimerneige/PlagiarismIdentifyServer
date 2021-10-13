@@ -3,3 +3,9 @@
 // All rights reserved.
 
 package controllers
+
+import "github.com/gin-gonic/gin"
+
+func HomeworkCreate(c *gin.Context) {
+
+}
