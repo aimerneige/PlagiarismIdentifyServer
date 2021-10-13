@@ -21,10 +21,10 @@ func StudentRouteCollection(r *gin.Engine) *gin.Engine {
 
 	studentId := student.Group(":id/")
 
+	studentId.GET("", controllers.StudentInfoGet)
+
 	studentIdAuth := studentId.Group("")
 	studentIdAuth.Use(middleware.StudentAuthMiddleware())
-
-	studentIdAuth.GET("", controllers.StudentInfoGet)
 
 	studentIdAuthPermission := studentIdAuth.Group("")
 	studentIdAuthPermission.Use(middleware.StudentPermissionMiddleware())

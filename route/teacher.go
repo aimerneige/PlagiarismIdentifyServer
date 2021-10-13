@@ -21,10 +21,10 @@ func TeacherRouteCollection(r *gin.Engine) *gin.Engine {
 
 	teacherId := teacher.Group(":id/")
 
+	teacherId.GET("", controllers.TeacherInfoGet)
+
 	teacherIdAuth := teacherId.Group("")
 	teacherIdAuth.Use(middleware.TeacherAuthMiddleware())
-
-	teacherIdAuth.GET("", controllers.TeacherInfoGet)
 
 	teacherIdAuthPermission := teacherIdAuth.Group("")
 	teacherIdAuthPermission.Use(middleware.TeacherPermissionMiddleware())
