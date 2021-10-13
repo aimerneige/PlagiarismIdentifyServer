@@ -464,19 +464,57 @@ traits:
               example: !include api-include-course-id-delete-return-sample.json
     /student:
       get:
+        is: ["hasAuth"]
         description: 获取学生列表
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include api-include-course-id-student-get-return-sample.json
       post:
+        is: ["hasAuth"]
         description: 学生参加课程
+        body:
+          multipart/form-data:
+            properties:
+              studentId:
+                type: string
+                description: 学生 id
+                example: 1
+                required: true
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include api-include-course-id-student-post-return-sample.json
       delete:
+        is: ["hasAuth"]
         description: 学生退出课程
+        body:
+          multipart/form-data:
+            properties:
+              studentId:
+                type: string
+                description: 学生 id
+                example: 1
+                required: true
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include api-include-course-id-student-delete-return-sample.json
     /task:
       get:
+        is: ["hasAuth"]
         description: 获取课程作业任务
       post:
+        is: ["hasAuth"]
         description: 教师发布作业任务
       put:
+        is: ["hasAuth"]
         description: 教师更新作业任务
       delete:
+        is: ["hasAuth"]
         description: 教师删除作业任务
 /homework:
   description: 学生作业相关接口
