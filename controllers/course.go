@@ -164,6 +164,8 @@ func CourseStudentCreate(c *gin.Context) {
 		return
 	}
 
+	// todo check if exist
+
 	course.Students = append(course.Students, student)
 
 	// save to database
