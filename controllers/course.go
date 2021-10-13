@@ -167,7 +167,7 @@ func CourseStudentCreate(c *gin.Context) {
 	course.Students = append(course.Students, student)
 
 	// save to database
-	if err := database.GetDB().Save(course).Error; err != nil {
+	if err := database.GetDB().Save(&course).Error; err != nil {
 		response.InternalServerError(c, err, "Database Save Error.")
 		return
 	}
