@@ -38,3 +38,6 @@ release/*
 ### raml output ###
 raml/api.html
 raml/api.md
+
+### build output ###
+build/*
