@@ -535,57 +535,81 @@ traits:
             body:
               application/json:
                 example: !include api-include-course-id-task-get-return-sample.json
-      post:
-        is: ["hasAuth"]
-        description: 教师发布作业任务
+/task:
+  description: 作业任务相关接口
+  get:
+    is: ["hasAuth"]
+    description: 获取作业任务信息
+    responses:
+      200:
         body:
-          multipart/form-data:
-            properties:
-              title:
-                type: string
-                description: 标题
-                example: 第一章作业
-                required: true
-              detail:
-                type: string
-                description: 作业内容
-                example: 第一章课后习题 ......
-                required: true
-              homework:
-                type: integer
-                description: |
-                  作业类型\
-                  0 图片\
-                  1 文档\
-                  2 程序
-                example: 1
-                required: true
-              language:
-                type: integer
-                description: |
-                  程序语言\
-                  0 无 （不是程序作业）\
-                  1 Java\
-                  2 C/CPP\
-                  3 Python
-                example: 0
-                required: true
-              time:
-                type: integer
-                description: 截止时间（Unix时间）
-                example: 1634219467
-                required: true
-        responses:
-          200:
-            body:
-              application/json:
-                example: !include api-include-course-id-task-get-return-sample.json
-      put:
-        is: ["hasAuth"]
-        description: 教师更新作业任务
-      delete:
-        is: ["hasAuth"]
-        description: 教师删除作业任务
+          application/json:
+            example: !include api-include-task-get-return-sample.json
+  post:
+    is: ["hasAuth"]
+    description: 教师发布作业任务
+    queryParameters:
+      courseId:
+        type: integer
+        description: 课程 id
+        example: 1
+        required: true
+    body:
+      multipart/form-data:
+        properties:
+          title:
+            type: string
+            description: 标题
+            example: 第一章作业
+            required: true
+          detail:
+            type: stringd
+            description: 作业内容
+            example: 第一章课后习题 ......
+            required: true
+          homework:
+            type: integer
+            description: |
+              作业类型\
+              0 图片\
+              1 文档\
+              2 程序
+            example: 1
+            required: true
+          language:
+            type: integer
+            description: |
+              程序语言\
+              0 无 （不是程序作业）\
+              1 Java\
+              2 C/CPP\
+              3 Python
+            example: 0
+            required: true
+          time:
+            type: integer
+            description: 截止时间（Unix时间）
+            example: 1634219467
+            required: true
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include api-include-task-post-return-sample.json
+  /{id}:
+    uriParameters:
+      id:
+        description: 作业任务 id
+        type: integer
+    get:
+      is: ["hasAuth"]
+      description: 获取作业任务详情
+    put:
+      is: ["hasAuth"]
+      description: 教师更新作业任务
+    delete:
+      is: ["hasAuth"]
+      description: 教师删除作业任务
 /homework:
   description: 学生作业相关接口
 /file:
