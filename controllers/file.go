@@ -26,11 +26,27 @@ func TaskFileUpload(c *gin.Context) {
 		return
 	}
 
+	// teacher from database
 	var teacher models.Teacher
 	db := database.GetDB()
 	db.First(&teacher, authTeacher.(models.Teacher).ID)
 	if teacher.ID == 0 {
 		response.BadRequest(c, nil, "Teacher Not Exist.")
+		return
+	}
+
+	// HomeworkTask Id from Query
+	homeworkTaskId := c.Query("taskId")
+	if homeworkTaskId == "" {
+		response.BadRequest(c, nil, "HomeworkTask Id Required")
+		return
+	}
+
+	// task from database
+	var task models.HomeworkTask
+	db.First(&task, homeworkTaskId)
+	if task.ID == 0 {
+		response.BadRequest(c, nil, "Task Not Exist.")
 		return
 	}
 
@@ -61,8 +77,9 @@ func TaskFileUpload(c *gin.Context) {
 	path := "/file/" + filePath
 
 	taskFile := models.TaskFile{
-		Name: name,
-		Path: path,
+		Name:           name,
+		Path:           path,
+		HomeworkTaskID: task.ID,
 	}
 
 	if err := db.Create(&taskFile).Error; err != nil {
@@ -83,11 +100,27 @@ func HomeworkFileUpload(c *gin.Context) {
 		return
 	}
 
+	// student from database
 	var student models.Student
 	db := database.GetDB()
 	db.First(&student, authStudent.(models.Student).ID)
 	if student.ID == 0 {
 		response.BadRequest(c, nil, "Student Not Exist.")
+		return
+	}
+
+	// Homework Id from Query
+	homeworkId := c.Query("homeworkId")
+	if homeworkId == "" {
+		response.BadRequest(c, nil, "Student Homework Id Required")
+		return
+	}
+
+	// homework from database
+	var homework models.StudentHomework
+	db.First(&homework, homeworkId)
+	if homework.ID == 0 {
+		response.BadRequest(c, nil, "Homework Not Exist.")
 		return
 	}
 
@@ -118,8 +151,9 @@ func HomeworkFileUpload(c *gin.Context) {
 	path := "/file/" + filePath
 
 	homeworkFile := models.HomeworkFile{
-		Name: name,
-		Path: path,
+		Name:              name,
+		Path:              path,
+		StudentHomeworkID: homework.ID,
 	}
 
 	if err := db.Create(&homeworkFile).Error; err != nil {
