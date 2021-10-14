@@ -80,21 +80,18 @@ func StudentInfoUpdate(c *gin.Context) {
 	name := c.PostForm("name")
 	if len(strings.TrimSpace(name)) == 0 {
 		response.BadRequest(c, nil, "Name require.")
-		c.Abort()
 		return
 	}
 	// Phone
 	phone := c.PostForm("phone")
 	if !utils.VerifyChinaPhoneNumberFormat(phone) {
 		response.BadRequest(c, nil, "Wrong phone number!")
-		c.Abort()
 		return
 	}
 	// Email
 	email := c.PostForm("email")
 	if !utils.VerifyEmailFormat(email) {
 		response.BadRequest(c, nil, "Wrong email format!")
-		c.Abort()
 		return
 	}
 
@@ -204,7 +201,6 @@ func StudentNameUpdate(c *gin.Context) {
 	name := c.PostForm("name")
 	if len(strings.TrimSpace(name)) == 0 {
 		response.BadRequest(c, nil, "Name require.")
-		c.Abort()
 		return
 	}
 
@@ -233,7 +229,6 @@ func StudentPhoneUpdate(c *gin.Context) {
 	phone := c.PostForm("phone")
 	if !utils.VerifyChinaPhoneNumberFormat(phone) {
 		response.BadRequest(c, nil, "Wrong phone number!")
-		c.Abort()
 		return
 	}
 
@@ -262,7 +257,6 @@ func StudentEmailUpdate(c *gin.Context) {
 	email := c.PostForm("email")
 	if !utils.VerifyEmailFormat(email) {
 		response.BadRequest(c, nil, "Wrong email format!")
-		c.Abort()
 		return
 	}
 
@@ -327,23 +321,19 @@ func StudentPasswordUpdate(c *gin.Context) {
 			"password": new,
 			"length":   len(new),
 		}, "Password length must between 8 and 16.")
-		c.Abort()
 		return
 	}
 	if utils.IsWeakPassword(new) {
 		response.BadRequest(c, new, "Weak Password.")
-		c.Abort()
 		return
 	}
 	if new == student.Account {
 		response.BadRequest(c, nil, "Password can not be same with account.")
-		c.Abort()
 		return
 	}
 	hashPassword, err := bcrypt.GenerateFromPassword([]byte(new), bcrypt.DefaultCost)
 	if err != nil {
 		response.InternalServerError(c, err, "Crypt Unsuccessful.")
-		c.Abort()
 		return
 	}
 

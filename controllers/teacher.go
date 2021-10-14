@@ -80,21 +80,18 @@ func TeacherInfoUpdate(c *gin.Context) {
 	name := c.PostForm("name")
 	if len(strings.TrimSpace(name)) == 0 {
 		response.BadRequest(c, nil, "Name require.")
-		c.Abort()
 		return
 	}
 	// Phone
 	phone := c.PostForm("phone")
 	if !utils.VerifyChinaPhoneNumberFormat(phone) {
 		response.BadRequest(c, nil, "Wrong phone number!")
-		c.Abort()
 		return
 	}
 	// Email
 	email := c.PostForm("email")
 	if !utils.VerifyEmailFormat(email) {
 		response.BadRequest(c, nil, "Wrong email format!")
-		c.Abort()
 		return
 	}
 
