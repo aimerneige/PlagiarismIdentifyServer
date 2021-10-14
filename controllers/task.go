@@ -16,6 +16,13 @@ import (
 )
 
 func TaskCreate(c *gin.Context) {
+	// get auth teacher from context
+	authTeacher, exist := c.Get("authTeacher")
+	if !exist {
+		response.BadRequest(c, nil, "AuthTeacher not found from context.")
+		return
+	}
+
 	// title
 	title := c.PostForm("title")
 	if len(strings.TrimSpace(title)) == 0 {
@@ -72,6 +79,12 @@ func TaskCreate(c *gin.Context) {
 	db.First(&course, courseId)
 	if course.ID == 0 {
 		response.NotFound(c, nil, "Course Not Found.")
+		return
+	}
+
+	// check permission
+	if course.TeacherID != authTeacher.(models.Teacher).ID {
+		response.Forbidden(c, nil, "No Permission.")
 		return
 	}
 
@@ -133,10 +146,12 @@ func TaskInfoGet(c *gin.Context) {
 
 func TaskUpdate(c *gin.Context) {
 	// TODO
+	response.Forbidden(c, nil, "Not allowed to update.")
 }
 
 func TaskDelete(c *gin.Context) {
 	// TODO
+	response.Forbidden(c, nil, "Not allowed to delete.")
 }
 
 func getTaskWithId(c *gin.Context) (models.HomeworkTask, bool) {
