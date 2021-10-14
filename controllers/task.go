@@ -10,7 +10,6 @@ import (
 	"plagiarism-identify-server/response"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -65,12 +64,11 @@ func TaskCreate(c *gin.Context) {
 	}
 	// time
 	unixTime := c.PostForm("deadLine")
-	unixTimeValue, err := strconv.ParseInt(unixTime, 10, 64)
+	deadLine, err := strconv.ParseInt(unixTime, 10, 64)
 	if err != nil {
 		response.BadRequest(c, err, "Wrong Unix Time Format")
 		return
 	}
-	deadLine := time.Unix(unixTimeValue, 0)
 	// courseId from query
 	courseId := c.Query("courseId")
 	if courseId == "" {

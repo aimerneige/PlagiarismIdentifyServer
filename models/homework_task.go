@@ -5,8 +5,6 @@
 package models
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
@@ -17,7 +15,7 @@ type HomeworkTask struct {
 	Type             HomeworkType
 	Language         ProgramLanguage
 	Files            []TaskFile
-	DeadLine         time.Time
+	DeadLine         int64
 	CourseID         uint
 	StudentHomeworks []StudentHomework
 }
@@ -29,9 +27,9 @@ type HomeworkTaskDto struct {
 	Type               HomeworkType    `json:"type"`
 	Language           ProgramLanguage `json:"language"`
 	FileIDs            []uint          `json:"fileIds"`
-	CreateAt           time.Time       `json:"createAt"`
-	UpdateAt           time.Time       `json:"updateAt"`
-	DeadLine           time.Time       `json:"deadLine"`
+	CreateAt           int64           `json:"createAt"`
+	UpdateAt           int64           `json:"updateAt"`
+	DeadLine           int64           `json:"deadLine"`
 	CourseID           uint            `json:"courseId"`
 	StudentHomeworkIDs []uint          `json:"studentHomeworkIds"`
 }
@@ -42,8 +40,8 @@ func (h HomeworkTask) ToDto() (dto HomeworkTaskDto) {
 	dto.Detail = h.Detail
 	dto.Type = h.Type
 	dto.Language = h.Language
-	dto.CreateAt = h.CreatedAt
-	dto.UpdateAt = h.UpdatedAt
+	dto.CreateAt = h.CreatedAt.Unix()
+	dto.UpdateAt = h.UpdatedAt.Unix()
 	dto.DeadLine = h.DeadLine
 	dto.CourseID = h.CourseID
 
