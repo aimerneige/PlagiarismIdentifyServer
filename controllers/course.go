@@ -137,9 +137,17 @@ func CourseStudentGet(c *gin.Context) {
 		return
 	}
 
+	db := database.GetDB()
+	var studentSlice []models.Student
+	var studentIds []uint
+	db.Model(&course).Association("Students").Find(&studentSlice)
+	for _, student := range studentSlice {
+		studentIds = append(studentIds, student.ID)
+	}
+
 	response.OK(c, gin.H{
 		"id":         course.ID,
-		"studentIds": course.ToDto().StudentIDs,
+		"studentIds": studentIds,
 	}, "Course Student Get Successful.")
 }
 
