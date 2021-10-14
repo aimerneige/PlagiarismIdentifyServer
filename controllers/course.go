@@ -12,6 +12,7 @@ import (
 	"plagiarism-identify-server/utils"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -314,7 +315,6 @@ func CourseTaskCreate(c *gin.Context) {
 		response.BadRequest(c, nil, "Wrong Type.")
 		return
 	}
-
 	// language
 	language := c.PostForm("language")
 	languageValue, err := strconv.Atoi(language)
@@ -326,12 +326,30 @@ func CourseTaskCreate(c *gin.Context) {
 		response.BadRequest(c, nil, "Wrong Type.")
 		return
 	}
+	// time
+	unixTime := c.PostForm("deadLine")
+	unixTimeValue, err := strconv.ParseInt(unixTime, 10, 64)
+	if err != nil {
+		response.BadRequest(c, err, "Wrong Unix Time Format")
+		return
+	}
+	deadLine := time.Unix(unixTimeValue, 0)
+	// course
+	course, hasError := getCourseWithId(c)
+	if hasError {
+		return
+	}
+
+	// student homeworks
+	// TODO
 
 	task := models.HomeworkTask{
 		Title:    title,
 		Detail:   detail,
 		Type:     models.HomeworkType(homeworkTypeValue),
 		Language: models.ProgramLanguage(languageValue),
+		DeadLine: deadLine,
+		CourseID: course.ID,
 	}
 
 	if err := database.GetDB().Create(&task).Error; err != nil {

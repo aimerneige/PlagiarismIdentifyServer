@@ -4,8 +4,8 @@ title: Plagiarism Identify Server
 documentation:
   - title: Copyright
     content: |
-      Copyright (c) 2021 AimerNeige
-      aimer.neige@aimerneige.com
+      Copyright (c) 2021 AimerNeige\
+      aimer.neige@aimerneige.com\
       All rights reserved.
 baseUri: http://example.com/api/{version}
 version: v1
@@ -446,7 +446,7 @@ traits:
       200:
         body:
           application/json:
-            example: !include api-include-course-coursecode-get-sample.json
+            example: !include api-include-course-get-return-sample.json
   /{id}:
     uriParameters:
       id:
@@ -538,6 +538,48 @@ traits:
       post:
         is: ["hasAuth"]
         description: 教师发布作业任务
+        body:
+          multipart/form-data:
+            properties:
+              title:
+                type: string
+                description: 标题
+                example: 第一章作业
+                required: true
+              detail:
+                type: string
+                description: 作业内容
+                example: 第一章课后习题 ......
+                required: true
+              homework:
+                type: integer
+                description: |
+                  作业类型\
+                  0 图片\
+                  1 文档\
+                  2 程序
+                example: 1
+                required: true
+              language:
+                type: integer
+                description: |
+                  程序语言\
+                  0 无 （不是程序作业）\
+                  1 Java\
+                  2 C/CPP\
+                  3 Python
+                example: 0
+                required: true
+              time:
+                type: integer
+                description: 截止时间（Unix时间）
+                example: 1634219467
+                required: true
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include api-include-course-id-task-get-return-sample.json
       put:
         is: ["hasAuth"]
         description: 教师更新作业任务
