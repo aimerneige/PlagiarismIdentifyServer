@@ -283,9 +283,15 @@ func CourseStudentDelete(c *gin.Context) {
 		return
 	}
 
+	// get student ids for return
+	var studentIds []uint
+	for _, stu := range studentSlice {
+		studentIds = append(studentIds, stu.ID)
+	}
+
 	response.OK(c, gin.H{
 		"id":         course.ID,
-		"studentIds": course.ToDto().StudentIDs,
+		"studentIds": studentIds,
 	}, "Remove Student Successful.")
 }
 
