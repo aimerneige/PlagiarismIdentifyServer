@@ -10,9 +10,7 @@ import (
 	"plagiarism-identify-server/models"
 	"plagiarism-identify-server/response"
 	"plagiarism-identify-server/utils"
-	"strconv"
 	"strings"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -285,89 +283,22 @@ func CourseTaskGet(c *gin.Context) {
 		return
 	}
 
+	// get task info
+	var taskSlice []models.HomeworkTask
+	var taskIds []uint
+	err := database.GetDB().Model(&course).Association("HomeworkTasks").Find(&taskSlice)
+	if err != nil {
+		response.InternalServerError(c, err, "Database Association Error.")
+		return
+	}
+	for _, task := range taskSlice {
+		taskIds = append(taskIds, task.ID)
+	}
+
 	response.OK(c, gin.H{
 		"id":              course.ID,
-		"homeworkTaskIds": course.ToDto().HomeworkTaskIDs,
+		"homeworkTaskIds": taskIds,
 	}, "Course Task Get Successful.")
-}
-
-func CourseTaskCreate(c *gin.Context) {
-	// title
-	title := c.PostForm("title")
-	if len(strings.TrimSpace(title)) == 0 {
-		response.BadRequest(c, nil, "Title required.")
-		return
-	}
-	// detail
-	detail := c.PostForm("detail")
-	if len(strings.TrimSpace(detail)) == 0 {
-		response.BadRequest(c, nil, "Detail required.")
-		return
-	}
-	// homework
-	homeworkType := c.PostForm("type")
-	homeworkTypeValue, err := strconv.Atoi(homeworkType)
-	if err != nil {
-		response.BadRequest(c, nil, "Wrong Args.")
-		return
-	}
-	if homeworkTypeValue < 0 || homeworkTypeValue > 2 {
-		response.BadRequest(c, nil, "Wrong Type.")
-		return
-	}
-	// language
-	language := c.PostForm("language")
-	languageValue, err := strconv.Atoi(language)
-	if err != nil {
-		response.BadRequest(c, nil, "Wrong Args.")
-		return
-	}
-	if languageValue < 0 || languageValue > 3 {
-		response.BadRequest(c, nil, "Wrong Type.")
-		return
-	}
-	// time
-	unixTime := c.PostForm("deadLine")
-	unixTimeValue, err := strconv.ParseInt(unixTime, 10, 64)
-	if err != nil {
-		response.BadRequest(c, err, "Wrong Unix Time Format")
-		return
-	}
-	deadLine := time.Unix(unixTimeValue, 0)
-	// course
-	course, hasError := getCourseWithId(c)
-	if hasError {
-		return
-	}
-
-	// student homeworks
-	// TODO
-
-	task := models.HomeworkTask{
-		Title:    title,
-		Detail:   detail,
-		Type:     models.HomeworkType(homeworkTypeValue),
-		Language: models.ProgramLanguage(languageValue),
-		DeadLine: deadLine,
-		CourseID: course.ID,
-	}
-
-	if err := database.GetDB().Create(&task).Error; err != nil {
-		response.InternalServerError(c, err, "Database Save Error.")
-		return
-	}
-
-	response.Created(c, gin.H{
-		"id": task.ID,
-	}, "Task Create Successful.")
-}
-
-func CourseTaskUpdate(c *gin.Context) {
-
-}
-
-func CourseTaskDelete(c *gin.Context) {
-
 }
 
 func CourseGetCourseWithCourseCode(c *gin.Context) {
