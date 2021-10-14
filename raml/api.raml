@@ -513,6 +513,11 @@ traits:
       get:
         is: ["hasAuth"]
         description: 获取课程作业任务
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include api-include-course-id-task-get-return-sample.json
       post:
         is: ["hasAuth"]
         description: 教师发布作业任务
@@ -525,5 +530,6 @@ traits:
 /homework:
   description: 学生作业相关接口
 /file:
+  description: 文件相关接口
   /upload:
-  /download:
+    description: 文件上传
