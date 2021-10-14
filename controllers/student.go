@@ -174,7 +174,7 @@ func StudentAvatarUpdate(c *gin.Context) {
 		os.Mkdir(destDirectory, 0755)
 	}
 	if err := c.SaveUploadedFile(header, destFile); err != nil {
-		response.InternalServerError(c, err, "Fail to save file to disk.")
+		response.InternalServerError(c, err, "Fail to save file into disk.")
 		return
 	}
 
