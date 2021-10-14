@@ -34,9 +34,6 @@ func (t Teacher) ToDto() (dto TeacherDto) {
 	dto.Name = t.Name
 	dto.Phone = t.Phone
 	dto.Email = t.Email
-	for _, course := range t.Courses {
-		dto.CourseIDs = append(dto.CourseIDs, course.ID)
-	}
 
 	return
 }
