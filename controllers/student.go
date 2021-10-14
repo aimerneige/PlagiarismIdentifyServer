@@ -5,7 +5,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -182,23 +181,8 @@ func StudentAvatarUpdate(c *gin.Context) {
 	}
 
 	// avatar download link
-	secure := viper.GetString("common.secure")
-	baseUrl := viper.GetString("common.baseUrl")
-	routePath := "file/"
-	port := viper.GetString("common.port")
-	if port == "80" {
-		port = ""
-	} else {
-		port = ":" + port
-	}
-	avatarLink := fmt.Sprintf("%s://%s%s/%s%s",
-		secure,
-		baseUrl,
-		port,
-		routePath,
-		avatarFile,
-	)
-	// http://example.com/file/avatar/student/1907040101/avatar.jpg
+	avatarLink := "/file/" + avatarFile
+	// /file/avatar/student/1907040101/avatar.jpg
 
 	// save to database
 	student.Avatar = avatarLink
