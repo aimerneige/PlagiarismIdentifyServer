@@ -5,13 +5,18 @@
 package controllers
 
 import (
+	"os"
+	"path/filepath"
 	"plagiarism-identify-server/database"
 	"plagiarism-identify-server/models"
 	"plagiarism-identify-server/response"
+	"plagiarism-identify-server/utils"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
 func TaskCreate(c *gin.Context) {
@@ -156,6 +161,82 @@ func TaskUpdate(c *gin.Context) {
 func TaskDelete(c *gin.Context) {
 	// TODO
 	response.Forbidden(c, nil, "Not allowed to delete.")
+}
+
+func TaskFileUpload(c *gin.Context) {
+	// get auth teacher from context
+	authTeacher, exist := c.Get("authTeacher")
+	if !exist {
+		response.BadRequest(c, nil, "AuthTeacher not found from context.")
+		return
+	}
+
+	var teacher models.Teacher
+	db := database.GetDB()
+	db.First(&teacher, authTeacher.(models.Teacher).ID)
+	if teacher.ID == 0 {
+		response.BadRequest(c, nil, "Teacher Not Exist.")
+		return
+	}
+
+	// get task with id
+	task, hasError := getTaskWithId(c)
+	if hasError {
+		return
+	}
+
+	file, header, err := c.Request.FormFile("file")
+	if err != nil {
+		response.BadRequest(c, err, "Fail to read form file.")
+		return
+	}
+	defer file.Close()
+
+	name := filepath.Base(header.Filename)
+	fileExt := filepath.Ext(header.Filename)
+	randomChars := utils.GenerateCid(16)
+	rootPath := viper.GetString("common.path") // /opt/software/file
+	fileName := strconv.FormatInt(time.Now().Unix(), 10) + "-" + randomChars + fileExt
+	fileDirectory := filepath.Join("task", teacher.Account)
+	destDirectory := filepath.Join(rootPath, fileDirectory)
+	filePath := filepath.Join(fileDirectory, fileName)
+	destFile := filepath.Join(destDirectory, fileName)
+	if !utils.CheckDirExist(destDirectory) {
+		os.Mkdir(destDirectory, 0755)
+	}
+	if err := c.SaveUploadedFile(header, destFile); err != nil {
+		response.InternalServerError(c, err, "Fail to save file into disk.")
+		return
+	}
+
+	path := "/file/" + filePath
+
+	taskFile := models.TaskFile{
+		Name: name,
+		Path: path,
+	}
+
+	var taskFileSlice []models.TaskFile
+	if err := db.Model(&task).Association("Files").Find(&taskFileSlice); err != nil {
+		response.InternalServerError(c, err, "Database Association Error.")
+		return
+	}
+	taskFileSlice = append(taskFileSlice, taskFile)
+
+	if err := db.Save(&task).Error; err != nil {
+		response.InternalServerError(c, err, "Database Save Error,")
+		return
+	}
+
+	var taskFileIds []uint
+	for _, tf := range taskFileSlice {
+		taskFileIds = append(taskFileIds, tf.ID)
+	}
+
+	response.OK(c, gin.H{
+		"id":          task.ID,
+		"taskFileIds": taskFileIds,
+	}, "TaskFile Create Successful.")
 }
 
 func getTaskWithId(c *gin.Context) (models.HomeworkTask, bool) {
