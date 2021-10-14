@@ -15,7 +15,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CourseTaskCreate(c *gin.Context) {
+func TaskCreate(c *gin.Context) {
 	// title
 	title := c.PostForm("title")
 	if len(strings.TrimSpace(title)) == 0 {
@@ -58,13 +58,22 @@ func CourseTaskCreate(c *gin.Context) {
 		return
 	}
 	deadLine := time.Unix(unixTimeValue, 0)
-	// course
-	course, hasError := getCourseWithId(c)
-	if hasError {
+	// courseId from query
+	courseId := c.Query("courseId")
+	if courseId == "" {
+		response.BadRequest(c, nil, "CoourseId Required.")
 		return
 	}
 
 	db := database.GetDB()
+
+	// course
+	var course models.Course
+	db.First(&course, courseId)
+	if course.ID == 0 {
+		response.NotFound(c, nil, "Course Not Found.")
+		return
+	}
 
 	// related student homework
 	var studentSlice []models.Student
@@ -97,25 +106,55 @@ func CourseTaskCreate(c *gin.Context) {
 
 	response.Created(c, gin.H{
 		"id": task.ID,
-	}, "Task Create Successful.")
+	}, "HomeworkTask Create Successful.")
 }
 
-func CourseTaskInfoGet(c *gin.Context) {
-	// TODO
-
-	taskId := c.Param("taskid")
-	if taskId == "" {
-		response.BadRequest(c, nil, "TaskId Required.")
+func TaskInfoGet(c *gin.Context) {
+	task, hasError := getTaskWithId(c)
+	if hasError {
 		return
 	}
 
-	response.OK(c, nil, "Task Info Get Successful.")
+	dto := task.ToDto()
+	db := database.GetDB()
+	var fileSlice []models.TaskFile
+	db.Model(&task).Association("TaskFile").Find(&fileSlice)
+	for _, file := range fileSlice {
+		dto.FileIDs = append(dto.FileIDs, file.ID)
+	}
+	var homeworkSlice []models.StudentHomework
+	db.Model(&task).Association("StudentHomeworks").Find(&homeworkSlice)
+	for _, homework := range homeworkSlice {
+		dto.StudentHomeworkIDs = append(dto.StudentHomeworkIDs, homework.ID)
+	}
+
+	response.OK(c, dto, "HomeworkTask Info Get Successful.")
 }
 
-func CourseTaskUpdate(c *gin.Context) {
+func TaskUpdate(c *gin.Context) {
 	// TODO
 }
 
-func CourseTaskDelete(c *gin.Context) {
+func TaskDelete(c *gin.Context) {
 	// TODO
+}
+
+func getTaskWithId(c *gin.Context) (models.HomeworkTask, bool) {
+	var task models.HomeworkTask
+
+	// get id from route
+	id := c.Param("id")
+	if id == "" {
+		response.BadRequest(c, nil, "HomeworkTask ID Required.")
+		return task, true
+	}
+
+	// access database
+	database.GetDB().First(&task, id)
+	if task.ID == 0 {
+		response.NotFound(c, nil, "HomeworkTask Not Found.")
+		return task, true
+	}
+
+	return task, false
 }
