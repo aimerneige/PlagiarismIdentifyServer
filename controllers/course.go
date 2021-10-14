@@ -175,11 +175,11 @@ func CourseStudentCreate(c *gin.Context) {
 
 	// check user permission
 	if !authUser.(bean.AuthUser).IsTeacher && authUser.(bean.AuthUser).UserID != student.ID {
-		response.BadRequest(c, nil, "No Permission.")
+		response.Forbidden(c, nil, "No Permission.")
 		return
 	}
 	if authUser.(bean.AuthUser).IsTeacher && authUser.(bean.AuthUser).UserID != course.TeacherID {
-		response.BadRequest(c, nil, "No Permission")
+		response.Forbidden(c, nil, "No Permission")
 		return
 	}
 
@@ -240,11 +240,11 @@ func CourseStudentDelete(c *gin.Context) {
 
 	// check user permission
 	if !authUser.(bean.AuthUser).IsTeacher && authUser.(bean.AuthUser).UserID != student.ID {
-		response.BadRequest(c, nil, "No Permission.")
+		response.Forbidden(c, nil, "No Permission.")
 		return
 	}
 	if authUser.(bean.AuthUser).IsTeacher && authUser.(bean.AuthUser).UserID != course.TeacherID {
-		response.BadRequest(c, nil, "No Permission")
+		response.Forbidden(c, nil, "No Permission")
 		return
 	}
 
