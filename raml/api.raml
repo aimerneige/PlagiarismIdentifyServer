@@ -607,27 +607,36 @@ traits:
     delete:
       is: ["hasAuth"]
       description: 教师删除作业任务
+    /file:
+      description: 任务文件相关接口
+      get:
+        description: 任务文件信息获取
+      post:
+        is: ["hasAuth"]
+        description: 作业任务文件上传
+        body:
+          multipart/form-data:
+            properties:
+              file:
+                type: file
+                description: 文件
+                require: true
+        response:
+          200:
+            body:
+              application/json:
+                example: !include api-include-file-task-post-return-sample.json
+      delete:
+        is: ["hasAuth"]
+        description: 作业任务文件删除
 /homework:
   description: 学生作业相关接口
-/file:
-  description: 文件相关接口
-  /task:
+  /file:
+    description: 作业文件上传
+    get:
+      description: 作业文件信息获取
     post:
-      description: 作业任务文件上传
-      body:
-        multipart/form-data:
-          properties:
-            file:
-              type: file
-              description: 文件
-              require: true
-      response:
-        200:
-          body:
-            application/json:
-              example: !include api-include-file-task-post-return-sample.json
-  /homework:
-    post:
+      is: ["hasAuth"]
       description: 学生作业文件上传
       body:
         multipart/form-data:
@@ -641,3 +650,5 @@ traits:
           body:
             application/json:
               example: !include api-include-file-homework-post-return-sample.json
+    delete:
+      description: 作业任务文件删除
