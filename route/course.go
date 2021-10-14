@@ -52,8 +52,13 @@ func CourseRouteCollection(r *gin.Engine) *gin.Engine {
 	courseIdTaskTeacherAuth := courseIdTask.Group("")
 	courseIdTaskTeacherAuth.Use(middleware.TeacherAuthMiddleware())
 	courseIdTaskTeacherAuth.POST("", controllers.CourseTaskCreate)
-	courseIdTaskTeacherAuth.PUT("", controllers.CourseTaskUpdate)
-	courseIdTaskTeacherAuth.DELETE("", controllers.CourseTaskDelete)
+
+	courseIdTaskUserAuthTaskId := courseIdTaskUserAuth.Group(":taskid/")
+	courseIdTaskUserAuthTaskId.GET("", controllers.CourseTaskInfoGet)
+
+	courseIdTaskTeacherAuthTaskId := courseIdTaskTeacherAuth.Group(":taskid/")
+	courseIdTaskTeacherAuthTaskId.PUT("", controllers.CourseTaskUpdate)
+	courseIdTaskTeacherAuthTaskId.DELETE("", controllers.CourseTaskDelete)
 
 	return r
 }
