@@ -612,8 +612,8 @@ traits:
 /file:
   description: 文件相关接口
   /task:
-    description: 作业任务文件上传
     post:
+      description: 作业任务文件上传
       body:
         multipart/form-data:
           properties:
@@ -627,8 +627,8 @@ traits:
             application/json:
               example: !include api-include-file-task-post-return-sample.json
   /homework:
-    description: 学生作业文件上传
     post:
+      description: 学生作业文件上传
       body:
         multipart/form-data:
           properties:
