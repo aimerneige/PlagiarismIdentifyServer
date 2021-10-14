@@ -42,16 +42,10 @@ func (h HomeworkTask) ToDto() (dto HomeworkTaskDto) {
 	dto.Detail = h.Detail
 	dto.Type = h.Type
 	dto.Language = h.Language
-	for _, file := range h.Files {
-		dto.FileIDs = append(dto.FileIDs, file.ID)
-	}
 	dto.CreateAt = h.CreatedAt
 	dto.UpdateAt = h.UpdatedAt
 	dto.DeadLine = h.DeadLine
 	dto.CourseID = h.CourseID
-	for _, studentHomework := range h.StudentHomeworks {
-		dto.StudentHomeworkIDs = append(dto.StudentHomeworkIDs, studentHomework.ID)
-	}
 
 	return
 }
