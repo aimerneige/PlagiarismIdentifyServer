@@ -20,6 +20,10 @@ func CourseRouteCollection(r *gin.Engine) *gin.Engine {
 	courseCreate.Use(middleware.TeacherAuthMiddleware())
 	courseCreate.POST("", controllers.CourseCreate)
 
+	courseCourseCode := course.Group("")
+	courseCreate.Use(middleware.UserAuthMiddleware())
+	courseCourseCode.GET("", controllers.CourseGetCourseWithCourseCode)
+
 	courseId := course.Group(":id/")
 
 	courseIdUserAuth := courseId.Group("")

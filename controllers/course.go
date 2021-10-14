@@ -308,6 +308,28 @@ func CourseTaskDelete(c *gin.Context) {
 
 }
 
+func CourseGetCourseWithCourseCode(c *gin.Context) {
+	// get course code from post form
+	courseCode := c.PostForm("code")
+	if courseCode == "" {
+		response.BadRequest(c, nil, "CourseCode Required.")
+		return
+	}
+
+	// access database
+	db := database.GetDB()
+	var course models.Course
+	db.Where("course_code = ?", courseCode).First(&course)
+	if course.ID == 0 {
+		response.NotFound(c, nil, "Course Not Found.")
+		return
+	}
+
+	response.OK(c, gin.H{
+		"id": course.ID,
+	}, "Get Course With CourseCode Successful.")
+}
+
 func getCourseWithId(c *gin.Context) (models.Course, bool) {
 	var course models.Course
 
