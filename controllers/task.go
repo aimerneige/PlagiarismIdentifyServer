@@ -74,7 +74,7 @@ func TaskCreate(c *gin.Context) {
 	// courseId from query
 	courseId := c.Query("courseId")
 	if courseId == "" {
-		response.BadRequest(c, nil, "CoourseId Required.")
+		response.BadRequest(c, nil, "CourseId Required.")
 		return
 	}
 
