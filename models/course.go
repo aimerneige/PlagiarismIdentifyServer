@@ -29,12 +29,6 @@ func (c Course) ToDto() (dto ClassDto) {
 	dto.Title = c.Title
 	dto.CourseCode = c.CourseCode
 	dto.TeacherID = c.TeacherID
-	for _, student := range c.Students {
-		dto.StudentIDs = append(dto.StudentIDs, student.ID)
-	}
-	for _, homeworkTask := range c.HomeworkTasks {
-		dto.HomeworkTaskIDs = append(dto.HomeworkTaskIDs, homeworkTask.ID)
-	}
 
 	return
 }

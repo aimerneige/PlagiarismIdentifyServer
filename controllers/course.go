@@ -72,6 +72,11 @@ func CourseInfoGet(c *gin.Context) {
 	for _, student := range studentSlice {
 		dto.StudentIDs = append(dto.StudentIDs, student.ID)
 	}
+	var homeworkTaskSlice []models.HomeworkTask
+	db.Model(&course).Association("HomeworkTasks").Find(&homeworkTaskSlice)
+	for _, task := range homeworkTaskSlice {
+		dto.HomeworkTaskIDs = append(dto.HomeworkTaskIDs, task.ID)
+	}
 
 	response.OK(c, dto, "Get Course Info Successful.")
 }
