@@ -39,7 +39,10 @@ func TaskCreate(c *gin.Context) {
 	homeworkType := c.PostForm("type")
 	homeworkTypeValue, err := strconv.Atoi(homeworkType)
 	if err != nil {
-		response.BadRequest(c, nil, "Wrong Args.")
+		response.BadRequest(c, gin.H{
+			"err":          err,
+			"homeworkType": homeworkType,
+		}, "Wrong Args.")
 		return
 	}
 	if homeworkTypeValue < 0 || homeworkTypeValue > 2 {
@@ -50,7 +53,10 @@ func TaskCreate(c *gin.Context) {
 	language := c.PostForm("language")
 	languageValue, err := strconv.Atoi(language)
 	if err != nil {
-		response.BadRequest(c, nil, "Wrong Args.")
+		response.BadRequest(c, gin.H{
+			"err":      err,
+			"language": language,
+		}, "Wrong Args.")
 		return
 	}
 	if languageValue < 0 || languageValue > 3 {
