@@ -135,7 +135,7 @@ func TaskInfoGet(c *gin.Context) {
 	dto := task.ToDto()
 	db := database.GetDB()
 	var fileSlice []models.TaskFile
-	db.Model(&task).Association("TaskFile").Find(&fileSlice)
+	db.Model(&task).Association("Files").Find(&fileSlice)
 	for _, file := range fileSlice {
 		dto.FileIDs = append(dto.FileIDs, file.ID)
 	}
