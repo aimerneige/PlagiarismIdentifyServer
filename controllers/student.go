@@ -64,6 +64,7 @@ func StudentInfoGet(c *gin.Context) {
 	var courseSlice []models.Course
 	err := database.GetDB().Model(&student).Association("Courses").Find(&courseSlice)
 	if err != nil {
+		response.InternalServerError(c, err, "Database Association Error.")
 		return
 	}
 	dto := student.ToDto()
