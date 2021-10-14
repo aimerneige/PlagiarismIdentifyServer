@@ -537,14 +537,6 @@ traits:
                 example: !include api-include-course-id-task-get-return-sample.json
 /task:
   description: 作业任务相关接口
-  get:
-    is: ["hasAuth"]
-    description: 获取作业任务信息
-    responses:
-      200:
-        body:
-          application/json:
-            example: !include api-include-task-get-return-sample.json
   post:
     is: ["hasAuth"]
     description: 教师发布作业任务
@@ -603,7 +595,12 @@ traits:
         type: integer
     get:
       is: ["hasAuth"]
-      description: 获取作业任务详情
+      description: 获取作业任务信息
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include api-include-task-id-get-return-sample.json
     put:
       is: ["hasAuth"]
       description: 教师更新作业任务
