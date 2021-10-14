@@ -62,7 +62,17 @@ func StudentInfoGet(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, student.ToDto(), "Get User Info Successful.")
+	var courseSlice []models.Course
+	err := database.GetDB().Model(&student).Association("Courses").Find(&courseSlice)
+	if err != nil {
+		return
+	}
+	dto := student.ToDto()
+	for _, course := range courseSlice {
+		dto.CourseIDs = append(dto.CourseIDs, course.ID)
+	}
+
+	response.OK(c, dto, "Get User Info Successful.")
 }
 
 func StudentInfoUpdate(c *gin.Context) {
