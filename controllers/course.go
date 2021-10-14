@@ -66,7 +66,15 @@ func CourseInfoGet(c *gin.Context) {
 		return
 	}
 
-	response.OK(c, course.ToDto(), "Get Course Info Successful.")
+	dto := course.ToDto()
+	db := database.GetDB()
+	var studentSlice []models.Student
+	db.Model(&course).Association("Students").Find(&studentSlice)
+	for _, student := range studentSlice {
+		dto.StudentIDs = append(dto.StudentIDs, student.ID)
+	}
+
+	response.OK(c, dto, "Get Course Info Successful.")
 }
 
 func CourseInfoUpdate(c *gin.Context) {
@@ -140,11 +148,25 @@ func CourseStudentCreate(c *gin.Context) {
 		return
 	}
 
+	// get id from route
+	id := c.Param("id")
+	if id == "" {
+		response.BadRequest(c, nil, "Course ID Required.")
+		return
+	}
+	// database obj
+	db := database.GetDB()
+	// check if course exist
+	var course models.Course
+	db.First(&course, id)
+	if course.ID == 0 {
+		response.NotFound(c, nil, "Course Not Found.")
+		return
+	}
+
 	// student id from port form
 	studentId := c.PostForm("studentId")
-
-	// check database
-	db := database.GetDB()
+	// check if user exist
 	var student models.Student
 	db.First(&student, studentId)
 	if student.ID == 0 {
@@ -157,26 +179,36 @@ func CourseStudentCreate(c *gin.Context) {
 		response.BadRequest(c, nil, "No Permission.")
 		return
 	}
-
-	// get course with id
-	course, hasError := getCourseWithId(c)
-	if hasError {
+	if authUser.(bean.AuthUser).IsTeacher && authUser.(bean.AuthUser).UserID != course.TeacherID {
+		response.BadRequest(c, nil, "No Permission")
 		return
 	}
 
-	// todo check if exist
-
-	course.Students = append(course.Students, student)
-
-	// save to database
-	if err := database.GetDB().Save(&course).Error; err != nil {
+	// update relation
+	var studentSlice []models.Student
+	db.Model(&course).Association("Students").Find(&studentSlice)
+	for _, stu := range studentSlice {
+		if stu.ID == student.ID {
+			response.BadRequest(c, nil, "Student exist in course.")
+			return
+		}
+	}
+	studentSlice = append(studentSlice, student)
+	course.Students = studentSlice
+	if err := db.Save(&course).Error; err != nil {
 		response.InternalServerError(c, err, "Database Save Error.")
 		return
 	}
 
+	// get student ids for return
+	var studentIds []uint
+	for _, stu := range studentSlice {
+		studentIds = append(studentIds, stu.ID)
+	}
+
 	response.OK(c, gin.H{
 		"id":         course.ID,
-		"studentIds": course.ToDto().StudentIDs,
+		"studentIds": studentIds,
 	}, "Add New Student Successful.")
 }
 
@@ -189,6 +221,12 @@ func CourseStudentDelete(c *gin.Context) {
 		return
 	}
 
+	// get course with id
+	course, hasError := getCourseWithId(c)
+	if hasError {
+		return
+	}
+
 	// student id from port form
 	studentId := c.PostForm("studentId")
 
@@ -206,23 +244,29 @@ func CourseStudentDelete(c *gin.Context) {
 		response.BadRequest(c, nil, "No Permission.")
 		return
 	}
-
-	// get course with id
-	course, hasError := getCourseWithId(c)
-	if hasError {
+	if authUser.(bean.AuthUser).IsTeacher && authUser.(bean.AuthUser).UserID != course.TeacherID {
+		response.BadRequest(c, nil, "No Permission")
 		return
 	}
 
-	// remove user
-	for index, existStudent := range course.Students {
-		if existStudent.ID == student.ID {
-			course.Students = append(course.Students[:index], course.Students[index+1:]...)
+	// update relation
+	var studentSlice []models.Student
+	db.Model(&course).Association("Students").Find(&studentSlice)
+	studentExist := false // check if student exist
+	for index, stu := range studentSlice {
+		if stu.ID == student.ID {
+			studentSlice = append(studentSlice[:index], studentSlice[index+1:]...)
+			studentExist = true
 			break
 		}
 	}
+	if !studentExist {
+		response.BadRequest(c, nil, "Student not exist in course.")
+		return
+	}
 
 	// save to database
-	if err := database.GetDB().Save(course).Error; err != nil {
+	if err := db.Save(course).Error; err != nil {
 		response.InternalServerError(c, err, "Database Save Error.")
 		return
 	}
