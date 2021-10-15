@@ -1,7 +1,7 @@
 {
     "code": 200,
     "data": {
-        "avatar": "/file/avatar/teacher/1907040101/avatar.jpg",
+        "avatar": "/file/avatar/student/1907040101/avatar.png",
         "id": 1
     },
     "msg": "Update User Avatar Successful."
