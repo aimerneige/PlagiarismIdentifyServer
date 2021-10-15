@@ -14,7 +14,7 @@ type Student struct {
 	Name     string
 	Phone    string
 	Email    string
-	Course   []Course `gorm:"many2many:course_students"`
+	Courses  []Course `gorm:"many2many:course_students"`
 }
 
 type StudentDto struct {
