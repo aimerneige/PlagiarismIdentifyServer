@@ -594,6 +594,16 @@ traits:
           body:
             application/json:
               example: !include api-include-task-id-get-return-sample.json
+/homework:
+  description: 学生作业相关接口
+  /{id}:
+    get:
+      description: 获取学生作业信息
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include api-include-homework-id-get-return-sample.json
 /file:
   description: 文件相关接口
   /task:

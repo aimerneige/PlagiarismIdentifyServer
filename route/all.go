@@ -19,6 +19,7 @@ func AllRouteCollection(r *gin.Engine) *gin.Engine {
 	r = StudentRouteCollection(r)
 	r = CourseRouteCollection(r)
 	r = TaskRouteCollection(r)
+	r = HomeworkRouteCollection(r)
 	r = FileRouteCollection(r)
 
 	return r
