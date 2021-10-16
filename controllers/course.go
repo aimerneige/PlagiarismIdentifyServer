@@ -233,17 +233,25 @@ func CourseStudentDelete(c *gin.Context) {
 		return
 	}
 
-	// get course with id
-	course, hasError := getCourseWithId(c)
-	if hasError {
+	// get id from route
+	id := c.Param("id")
+	if id == "" {
+		response.BadRequest(c, nil, "Course ID Required.")
+		return
+	}
+	// database obj
+	db := database.GetDB()
+	// check if course exist
+	var course models.Course
+	db.First(&course, id)
+	if course.ID == 0 {
+		response.NotFound(c, nil, "Course Not Found.")
 		return
 	}
 
 	// student id from port form
 	studentId := c.PostForm("studentId")
-
-	// check database
-	db := database.GetDB()
+	// check if user exist
 	var student models.Student
 	db.First(&student, studentId)
 	if student.ID == 0 {
@@ -278,6 +286,7 @@ func CourseStudentDelete(c *gin.Context) {
 	}
 
 	// save to database
+	course.Students = studentSlice
 	if err := db.Save(course).Error; err != nil {
 		response.InternalServerError(c, err, "Database Save Error.")
 		return
