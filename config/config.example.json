@@ -10,5 +10,11 @@
         "port": "3306",
         "database": "example",
         "charset": "utf8"
+    },
+    "copyright": {
+        "year": 2021,
+        "author": "AimerNeige",
+        "email": "aimer.neige@aimerneige.com",
+        "data": "All rights reserved."
     }
 }
