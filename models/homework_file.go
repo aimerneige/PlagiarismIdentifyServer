@@ -57,13 +57,13 @@ func (f HomeworkFile) IsImage() (ret bool) {
 	if strings.HasSuffix(fileName, IMAGE_JPG) {
 		ret = true
 	}
-	if strings.HasPrefix(fileName, IMAGE_PNG) {
+	if strings.HasSuffix(fileName, IMAGE_PNG) {
 		ret = true
 	}
-	if strings.HasPrefix(fileName, IMAGE_GIF) {
+	if strings.HasSuffix(fileName, IMAGE_GIF) {
 		ret = true
 	}
-	if strings.HasPrefix(fileName, IMAGE_BMP) {
+	if strings.HasSuffix(fileName, IMAGE_BMP) {
 		ret = true
 	}
 	return
@@ -78,13 +78,13 @@ func (f HomeworkFile) IsDocument() (ret bool) {
 	if strings.HasSuffix(fileName, DOCUMENT_DOC) {
 		ret = true
 	}
-	if strings.HasPrefix(fileName, DOCUMENT_DOCX) {
+	if strings.HasSuffix(fileName, DOCUMENT_DOCX) {
 		ret = true
 	}
-	if strings.HasPrefix(fileName, DOCUMENT_PDF) {
+	if strings.HasSuffix(fileName, DOCUMENT_PDF) {
 		ret = true
 	}
-	if strings.HasPrefix(fileName, DOCUMENT_HTML) {
+	if strings.HasSuffix(fileName, DOCUMENT_HTML) {
 		ret = true
 	}
 	return
@@ -99,10 +99,10 @@ func (f HomeworkFile) IsProgram() (ret bool) {
 	if strings.HasSuffix(fileName, PROGRAM_C) {
 		ret = true
 	}
-	if strings.HasPrefix(fileName, PROGRAM_CPP) {
+	if strings.HasSuffix(fileName, PROGRAM_CPP) {
 		ret = true
 	}
-	if strings.HasPrefix(fileName, PROGRAM_PYTHON) {
+	if strings.HasSuffix(fileName, PROGRAM_PYTHON) {
 		ret = true
 	}
 	return
