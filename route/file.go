@@ -16,13 +16,29 @@ func FileRouteCollection(r *gin.Engine) *gin.Engine {
 	v1 := r.Group("/api/v1")
 	file := v1.Group("/file")
 
-	taskFileUpload := file.Group("/task")
+	taskFile := file.Group("/task")
+
+	taskFileUpload := taskFile.Group("")
 	taskFileUpload.Use(middleware.TeacherAuthMiddleware())
 	taskFileUpload.POST("", controllers.TaskFileUpload)
 
-	homeworkFileUpload := file.Group("/homework")
+	taskFileId := taskFile.Group(":id/")
+
+	taskFileGet := taskFileId.Group("")
+	taskFileGet.Use(middleware.UserAuthMiddleware())
+	taskFileGet.GET("", controllers.TaskFileGet)
+
+	homeworkFile := file.Group("/homework")
+
+	homeworkFileUpload := homeworkFile.Group("")
 	homeworkFileUpload.Use(middleware.StudentAuthMiddleware())
 	homeworkFileUpload.POST("", controllers.HomeworkFileUpload)
+
+	homeworkFileId := homeworkFile.Group(":id/")
+
+	homeworkFileGet := homeworkFileId.Group("")
+	homeworkFileGet.Use(middleware.UserAuthMiddleware())
+	homeworkFileGet.GET("", controllers.HomeworkFileGet)
 
 	return r
 }

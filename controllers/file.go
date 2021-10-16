@@ -92,6 +92,23 @@ func TaskFileUpload(c *gin.Context) {
 	}, "TaskFile Create Successful.")
 }
 
+func TaskFileGet(c *gin.Context) {
+	id := c.Param("id")
+	if id == "" {
+		response.BadRequest(c, nil, "File Id Required.")
+		return
+	}
+
+	var file models.TaskFile
+	database.GetDB().First(&file, id)
+	if file.ID == 0 {
+		response.NotFound(c, nil, "File Not Found.")
+		return
+	}
+
+	response.OK(c, file.ToDto(), "File Info Get Successful.")
+}
+
 func HomeworkFileUpload(c *gin.Context) {
 	// get auth teacher from context
 	authStudent, exist := c.Get("authStudent")
@@ -164,4 +181,21 @@ func HomeworkFileUpload(c *gin.Context) {
 	response.Created(c, gin.H{
 		"id": homeworkFile.ID,
 	}, "HomeworkFile Create Successful.")
+}
+
+func HomeworkFileGet(c *gin.Context) {
+	id := c.Param("id")
+	if id == "" {
+		response.BadRequest(c, nil, "File Id Required.")
+		return
+	}
+
+	var file models.HomeworkFile
+	database.GetDB().First(&file, id)
+	if file.ID == 0 {
+		response.NotFound(c, nil, "File Not Found.")
+		return
+	}
+
+	response.OK(c, file.ToDto(), "File Info Get Successful.")
 }
