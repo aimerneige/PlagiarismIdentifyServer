@@ -5,10 +5,13 @@
 package route
 
 import (
+	"plagiarism-identify-server/middleware"
+
 	"github.com/gin-gonic/gin"
 )
 
 func AllRouteCollection(r *gin.Engine) *gin.Engine {
+	r.Use(middleware.CORSMiddleware())
 	r = IndexRouteCollection(r)
 	r = StaticRouteCollection(r)
 	r = LoginRouteCollection(r)
