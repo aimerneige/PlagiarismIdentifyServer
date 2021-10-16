@@ -214,7 +214,7 @@ func CourseStudentCreate(c *gin.Context) {
 
 	// get student ids for return
 	var studentIds []uint
-	for _, stu := range studentSlice {
+	for _, stu := range course.Students {
 		studentIds = append(studentIds, stu.ID)
 	}
 
@@ -269,13 +269,12 @@ func CourseStudentDelete(c *gin.Context) {
 		return
 	}
 
-	// update relation
+	// check if user exist in course
 	var studentSlice []models.Student
 	db.Model(&course).Association("Students").Find(&studentSlice)
 	studentExist := false // check if student exist
-	for index, stu := range studentSlice {
+	for _, stu := range studentSlice {
 		if stu.ID == student.ID {
-			studentSlice = append(studentSlice[:index], studentSlice[index+1:]...)
 			studentExist = true
 			break
 		}
@@ -286,21 +285,11 @@ func CourseStudentDelete(c *gin.Context) {
 	}
 
 	// save to database
-	course.Students = studentSlice
-	if err := db.Save(course).Error; err != nil {
-		response.InternalServerError(c, err, "Database Save Error.")
-		return
-	}
-
-	// get student ids for return
-	var studentIds []uint
-	for _, stu := range studentSlice {
-		studentIds = append(studentIds, stu.ID)
-	}
+	db.Model(&course).Association("Students").Delete(student)
 
 	response.OK(c, gin.H{
-		"id":         course.ID,
-		"studentIds": studentIds,
+		"id":        course.ID,
+		"studentId": student.ID,
 	}, "Remove Student Successful.")
 }
 
