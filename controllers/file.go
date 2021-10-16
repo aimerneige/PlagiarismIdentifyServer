@@ -87,7 +87,7 @@ func TaskFileUpload(c *gin.Context) {
 	}
 
 	if err := db.Create(&taskFile).Error; err != nil {
-		response.InternalServerError(c, err, "Database Save Error,")
+		response.InternalServerError(c, err, "Database Create Error,")
 		return
 	}
 
@@ -180,6 +180,9 @@ func HomeworkFileUpload(c *gin.Context) {
 		Path:              path,
 		StudentHomeworkID: homework.ID,
 	}
+
+	homework.Upload = true
+	homework.UploadTime = time.Now().Unix()
 
 	if err := db.Create(&homeworkFile).Error; err != nil {
 		response.InternalServerError(c, err, "Database Save Error,")
