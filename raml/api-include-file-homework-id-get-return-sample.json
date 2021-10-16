@@ -1,0 +1,10 @@
+{
+    "code": 200,
+    "data": {
+        "id": 1,
+        "name": "test.jpg",
+        "path": "/file/homework/1907040101/1634367022-0552030872140072.jpg",
+        "studentHomeworkId": 1
+    },
+    "msg": "File Info Get Successful."
+}
