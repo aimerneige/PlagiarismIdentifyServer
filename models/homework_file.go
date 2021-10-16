@@ -38,12 +38,14 @@ type HomeworkFile struct {
 type HomeworkFileDto struct {
 	ID                uint   `json:"id"`
 	Name              string `json:"name"`
+	Path              string `json:"path"`
 	StudentHomeworkID uint   `json:"studentHomeworkId"`
 }
 
 func (f HomeworkFile) ToDto() (dto HomeworkFileDto) {
 	dto.ID = f.ID
 	dto.Name = f.Name
+	dto.Path = f.Path
 	dto.StudentHomeworkID = f.StudentHomeworkID
 
 	return
