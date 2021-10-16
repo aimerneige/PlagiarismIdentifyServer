@@ -320,7 +320,7 @@ func CourseTaskGet(c *gin.Context) {
 
 func CourseGetCourseWithCourseCode(c *gin.Context) {
 	// get course code from post form
-	courseCode := c.PostForm("code")
+	courseCode := c.Query("code")
 	if courseCode == "" {
 		response.BadRequest(c, nil, "CourseCode Required.")
 		return

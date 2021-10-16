@@ -17,12 +17,12 @@ import (
 
 func TeacherLogin(c *gin.Context) {
 	// get and check user form data
-	account := c.PostForm("account")
+	account := c.Query("account")
 	if len(account) < 3 || len(account) > 24 {
 		response.BadRequest(c, nil, "Invalid Required.")
 		return
 	}
-	password := c.PostForm("password")
+	password := c.Query("password")
 	if len(password) < 8 || len(password) > 16 {
 		response.BadRequest(c, nil, "Invalid Password.")
 		return

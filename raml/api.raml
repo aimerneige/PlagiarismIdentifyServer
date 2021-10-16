@@ -26,19 +26,17 @@ traits:
     description: 老师登录
     get:
       description: 登录获取 token
-      body:
-        multipart/form-data:
-          properties:
-            account:
-              type: string
-              description: 用户帐号
-              example: 1907040101
-              required: true
-            password:
-              type: string
-              description: 用户密码
-              example: password1234
-              required: true
+      queryParameters:
+        account:
+          type: string
+          description: 用户帐号
+          example: 1907040101
+          required: true
+        password:
+          type: string
+          description: 用户密码
+          example: password1234
+          required: true
       responses:
         200:
           body:
@@ -48,19 +46,17 @@ traits:
     description: 学生登录
     get:
       description: 登录获取 token
-      body:
-        multipart/form-data:
-          properties:
-            account:
-              type: string
-              description: 用户帐号
-              example: 1907040101
-              required: true
-            password:
-              type: string
-              description: 用户密码
-              example: password1234
-              required: true
+      queryParameters:
+        account:
+          type: string
+          description: 用户帐号
+          example: 1907040101
+          required: true
+        password:
+          type: string
+          description: 用户密码
+          example: password1234
+          required: true
       responses:
         200:
           body:
@@ -433,14 +429,12 @@ traits:
   get:
     is: ["hasAuth"]
     description: 通过课程代码获取课程 id
-    body:
-      multipart/form-data:
-        properties:
-          code:
-            type: string
-            description: 课程代码
-            example: 114514
-            required: true
+    queryParameters:
+      code:
+        type: string
+        description: 课程代码
+        example: 114514
+        required: true
     responses:
       200:
         body:
