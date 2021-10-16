@@ -35,7 +35,7 @@ func CourseCreate(c *gin.Context) {
 	var courseTemp models.Course
 	var cid string = utils.GenerateCid(6)
 	for {
-		db.Where("CourseCode = ?", cid).First(&courseTemp)
+		db.Where("course_code = ?", cid).First(&courseTemp)
 		if courseTemp.ID == 0 {
 			break
 		}
