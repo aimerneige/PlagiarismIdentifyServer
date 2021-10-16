@@ -600,14 +600,6 @@ traits:
           body:
             application/json:
               example: !include api-include-task-id-get-return-sample.json
-    put:
-      is: ["hasAuth"]
-      description: 教师更新作业任务
-    delete:
-      is: ["hasAuth"]
-      description: 教师删除作业任务
-/homework:
-  description: 学生作业相关接口
 /file:
   description: 文件相关接口
   /task:
