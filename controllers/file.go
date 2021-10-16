@@ -67,7 +67,11 @@ func TaskFileUpload(c *gin.Context) {
 	filePath := filepath.Join(fileDirectory, fileName)
 	destFile := filepath.Join(destDirectory, fileName)
 	if !utils.CheckDirExist(destDirectory) {
-		os.Mkdir(destDirectory, 0755)
+		err := os.MkdirAll(destDirectory, 0755)
+		if err != nil {
+			response.InternalServerError(c, err, "Fail To MkdirAll.")
+			return
+		}
 	}
 	if err := c.SaveUploadedFile(header, destFile); err != nil {
 		response.InternalServerError(c, err, "Fail to save file into disk.")
@@ -158,7 +162,11 @@ func HomeworkFileUpload(c *gin.Context) {
 	filePath := filepath.Join(fileDirectory, fileName)
 	destFile := filepath.Join(destDirectory, fileName)
 	if !utils.CheckDirExist(destDirectory) {
-		os.Mkdir(destDirectory, 0755)
+		err := os.MkdirAll(destDirectory, 0755)
+		if err != nil {
+			response.InternalServerError(c, err, "Fail To MkdirAll.")
+			return
+		}
 	}
 	if err := c.SaveUploadedFile(header, destFile); err != nil {
 		response.InternalServerError(c, err, "Fail to save file into disk.")

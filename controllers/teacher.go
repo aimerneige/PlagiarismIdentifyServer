@@ -170,7 +170,11 @@ func TeacherAvatarUpdate(c *gin.Context) {
 	avatarFile := filepath.Join(avatarDirectory, fileName)              // avatar/teacher/1907040101/avatar.jpg
 	destFile := filepath.Join(destDirectory, fileName)                  // /opt/software/file/avatar/teacher/1907040101/avatar.jpg
 	if !utils.CheckDirExist(destDirectory) {
-		os.Mkdir(destDirectory, 0755)
+		err := os.MkdirAll(destDirectory, 0755)
+		if err != nil {
+			response.InternalServerError(c, err, "Fail To MkdirAll.")
+			return
+		}
 	}
 	if err := c.SaveUploadedFile(header, destFile); err != nil {
 		response.InternalServerError(c, err, "Fail to save file to disk.")
