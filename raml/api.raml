@@ -604,7 +604,14 @@ traits:
   description: 文件相关接口
   /task:
     post:
+      is: ["hasAuth"]
       description: 作业任务文件上传
+      queryParameters:
+        taskId:
+          type: integer
+          description: 作业 id
+          example: 1
+          required: true
       body:
         multipart/form-data:
           properties:
@@ -617,9 +624,29 @@ traits:
           body:
             application/json:
               example: !include api-include-file-task-post-return-sample.json
+    /{id}:
+      uriParameters:
+        id:
+          description: 文件 id
+          type: integer
+      get:
+        is: ["hasAuth"]
+        description: 文件信息获取
+        response:
+          200:
+            body:
+              application/json:
+                example: !include api-include-file-task-id-get-return-sample.json
   /homework:
     post:
+      is: ["hasAuth"]
       description: 学生作业文件上传
+      queryParameters:
+        homeworkId:
+          type: integer
+          description: 作业 id
+          example: 1
+          required: true
       body:
         multipart/form-data:
           properties:
@@ -632,3 +659,16 @@ traits:
           body:
             application/json:
               example: !include api-include-file-homework-post-return-sample.json
+    /{id}:
+      uriParameters:
+        id:
+          description: 文件 id
+          type: integer
+      get:
+        is: ["hasAuth"]
+        description: 文件信息获取
+        response:
+          200:
+            body:
+              application/json:
+                example: !include api-include-file-homework-id-get-return-sample.json
