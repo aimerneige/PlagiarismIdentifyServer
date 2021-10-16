@@ -1,0 +1,17 @@
+{
+    "code": 200,
+    "data": {
+        "id": 1,
+        "title": "第一章作业",
+        "detail": "第一章课后习题 ......",
+        "type": 1,
+        "language": 0,
+        "fileIds": null,
+        "createAt": 1634363558,
+        "updateAt": 1634363558,
+        "deadLine": 1635634646,
+        "courseId": 1,
+        "studentHomeworkIds": [1, 2, 3]
+    },
+    "msg": "HomeworkTask Info Get Successful."
+}
