@@ -6,7 +6,7 @@
         "detail": "第一章课后习题 ......",
         "type": 1,
         "language": 0,
-        "fileIds": null,
+        "fileIds": [1, 2, 3],
         "createAt": 1634363558,
         "updateAt": 1634363558,
         "deadLine": 1635634646,
