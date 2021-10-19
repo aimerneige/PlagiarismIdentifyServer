@@ -21,6 +21,7 @@ func AllRouteCollection(r *gin.Engine) *gin.Engine {
 	r = TaskRouteCollection(r)
 	r = HomeworkRouteCollection(r)
 	r = FileRouteCollection(r)
+	r = PlagiarismRouteCollection(r)
 
 	return r
 }
