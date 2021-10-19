@@ -5,7 +5,7 @@
 package controllers
 
 import (
-	"log"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -48,9 +48,10 @@ func GetPlagiarismInfo(c *gin.Context) {
 	rootPath := viper.GetString("common.path")
 	algorithmRootPath := viper.GetString("algorithm.path")
 	algorithmBinary := viper.GetString("algorithm.binary")
-	algorithmOutput := viper.GetString("algorithm.output")
+	algorithmOutputDir := viper.GetString("algorithm.outputDir")
+	algorithmOutputFile := viper.GetString("algorithm.outputFile")
 
-	outputPath := filepath.Join(algorithmRootPath, algorithmOutput)
+	outputPath := filepath.Join(algorithmRootPath, algorithmOutputDir)
 	if err := os.RemoveAll(outputPath); err != nil {
 		response.InternalServerError(c, err, "Error When Delete File.")
 		return
@@ -95,13 +96,18 @@ func GetPlagiarismInfo(c *gin.Context) {
 		argsHomeworkForm, // homework type
 		argsLangType,     // homework language
 	)
-	stdout, err := cmd.Output()
-
+	_, err := cmd.Output()
 	if err != nil {
 		response.InternalServerError(c, err, "Error When Running Java Code.")
 		return
 	}
-	log.Print(stdout)
 
-	response.OK(c, "some data todo", "todo")
+	outputFile := filepath.Join(algorithmRootPath, algorithmOutputDir, algorithmOutputFile)
+	content, err := ioutil.ReadFile(outputFile)
+	if err != nil {
+		response.InternalServerError(c, err, "Error When Reading File.")
+		return
+	}
+
+	response.OK(c, content, "Running Plagiarism Algorithm Successful.")
 }

@@ -14,7 +14,8 @@
     "algorithm": {
         "path": "/root/plagiarism-identify-server/algorithm",
         "binary": "Plag.jar",
-        "output": "jplagresult"
+        "outputDir": "jplagresult",
+        "outputFile": "matches_avg.csv"
     },
     "copyright": {
         "year": 2021,
