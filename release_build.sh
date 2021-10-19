@@ -3,6 +3,8 @@
 # aimer.neige@aimerneige.com
 # All rights reserved.
 
+set -e
+
 export GIN_MODE=release
 export GOARCH=amd64
 export GOOS=linux

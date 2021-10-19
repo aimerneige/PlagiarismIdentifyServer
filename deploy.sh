@@ -3,6 +3,8 @@
 # aimer.neige@aimerneige.com
 # All rights reserved.
 
+set -e
+
 ./release_build.sh
 cd ./raml
 raml2html --theme 'raml2html-default-theme' api.raml > api.html
