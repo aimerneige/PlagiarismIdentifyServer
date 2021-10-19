@@ -11,6 +11,11 @@
         "database": "example",
         "charset": "utf8"
     },
+    "algorithm": {
+        "path": "/root/plagiarism-identify-server/algorithm",
+        "binary": "Plag.jar",
+        "output": "jplagresult"
+    },
     "copyright": {
         "year": 2021,
         "author": "AimerNeige",
