@@ -6,6 +6,7 @@ package controllers
 
 import (
 	"log"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"plagiarism-identify-server/database"
@@ -48,6 +49,12 @@ func GetPlagiarismInfo(c *gin.Context) {
 	algorithmRootPath := viper.GetString("algorithm.path")
 	algorithmBinary := viper.GetString("algorithm.binary")
 	algorithmOutput := viper.GetString("algorithm.output")
+
+	outputPath := filepath.Join(algorithmRootPath, algorithmOutput)
+	if err := os.RemoveAll(outputPath); err != nil {
+		response.InternalServerError(c, err, "Error When Delete File.")
+		return
+	}
 
 	app := "java"
 	argsJar := "-jar"
@@ -94,10 +101,7 @@ func GetPlagiarismInfo(c *gin.Context) {
 		response.InternalServerError(c, err, "Error When Running Java Code.")
 		return
 	}
-
 	log.Print(stdout)
 
-	outputPath := filepath.Join(algorithmRootPath, algorithmOutput)
-
-	response.OK(c, outputPath, "todo")
+	response.OK(c, "some data todo", "todo")
 }
