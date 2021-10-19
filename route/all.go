@@ -5,6 +5,7 @@
 package route
 
 import (
+	"plagiarism-identify-server/controllers"
 	"plagiarism-identify-server/middleware"
 
 	"github.com/gin-gonic/gin"
@@ -22,6 +23,8 @@ func AllRouteCollection(r *gin.Engine) *gin.Engine {
 	r = HomeworkRouteCollection(r)
 	r = FileRouteCollection(r)
 	r = PlagiarismRouteCollection(r)
+
+	r.NoRoute(controllers.NotFound)
 
 	return r
 }
