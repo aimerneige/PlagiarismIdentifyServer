@@ -5,6 +5,7 @@
 package controllers
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"plagiarism-identify-server/database"
@@ -59,10 +60,16 @@ func TaskFileUpload(c *gin.Context) {
 
 	name := filepath.Base(header.Filename)
 	fileExt := filepath.Ext(header.Filename)
-	randomChars := utils.GenerateCid(16)
+	randomChars := utils.GenerateCid(6)
 	rootPath := viper.GetString("common.path") // /opt/software/file
-	fileName := strconv.FormatInt(time.Now().Unix(), 10) + "-" + randomChars + fileExt
-	fileDirectory := filepath.Join("task", teacher.Account)
+	fileName := fmt.Sprintf("%s-%s-%s-%s%s",
+		teacher.Account,
+		teacher.Name,
+		strconv.FormatInt(time.Now().Unix(), 10),
+		randomChars,
+		fileExt,
+	) // 1907040128-张三-1634636495-182371.doc
+	fileDirectory := filepath.Join("task", strconv.FormatUint(uint64(task.ID), 10))
 	destDirectory := filepath.Join(rootPath, fileDirectory)
 	filePath := filepath.Join(fileDirectory, fileName)
 	destFile := filepath.Join(destDirectory, fileName)
@@ -154,13 +161,19 @@ func HomeworkFileUpload(c *gin.Context) {
 
 	name := filepath.Base(header.Filename)
 	fileExt := filepath.Ext(header.Filename)
-	randomChars := utils.GenerateCid(16)
+	randomChars := utils.GenerateCid(6)
 	rootPath := viper.GetString("common.path") // /opt/software/file
-	fileName := strconv.FormatInt(time.Now().Unix(), 10) + "-" + randomChars + fileExt
-	fileDirectory := filepath.Join("homework", student.Account)
-	destDirectory := filepath.Join(rootPath, fileDirectory)
-	filePath := filepath.Join(fileDirectory, fileName)
-	destFile := filepath.Join(destDirectory, fileName)
+	fileName := fmt.Sprintf("%s-%s-%s-%s%s",
+		student.Account,
+		student.Name,
+		strconv.FormatInt(time.Now().Unix(), 10),
+		randomChars,
+		fileExt,
+	) // 1907040128-张三-1634636495-182371.doc
+	fileDirectory := filepath.Join("homework", strconv.FormatUint(uint64(homework.HomeworkTaskID), 10)) // homework/1
+	destDirectory := filepath.Join(rootPath, fileDirectory)                                             // /opt/software/file/homework/1907040101
+	filePath := filepath.Join(fileDirectory, fileName)                                                  // homework/1/file.ext
+	destFile := filepath.Join(destDirectory, fileName)                                                  // /opt/software/file/homework/1907040101/file.ext
 	if !utils.CheckDirExist(destDirectory) {
 		err := os.MkdirAll(destDirectory, 0755)
 		if err != nil {
