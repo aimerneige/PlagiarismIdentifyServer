@@ -676,3 +676,18 @@ traits:
             body:
               application/json:
                 example: !include api-include-file-homework-id-get-return-sample.json
+/plagiarism:
+  description: 查看抄袭情况相关接口
+  /{id}:
+    uriParameters:
+      id:
+        description: 作业任务 id
+        type: integer
+    get:
+      is: ["hasAuth"]
+      description: 查看抄袭情况
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include api-include-plagiarism-id-get-return-sample.json
